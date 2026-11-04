@@ -907,5 +907,101 @@
   "best": [
    2
   ]
+ },
+ {
+  "key": "botc",
+  "zh": "血染钟楼",
+  "en": "BLOOD ON THE CLOCKTOWER",
+  "cover": "img/games/botc.jpg",
+  "box": [
+   30.0,
+   36.5,
+   8.5
+  ],
+  "players": [
+   5,
+   21
+  ],
+  "time": [
+   30,
+   120
+  ],
+  "weight": 3.0,
+  "tags": [
+   "推理",
+   "阵营",
+   "聚会"
+  ],
+  "intro": "在谎言与线索中找出恶魔，死亡后仍能参与推理。",
+  "expansions": [
+   {
+    "en": "Trouble Brewing",
+    "zh": "暗流涌动",
+    "note": "基础盒内置的入门官方剧本，适合初次游玩。"
+   },
+   {
+    "en": "Bad Moon Rising",
+    "zh": "黯月初升",
+    "note": "基础盒内置的进阶官方剧本，围绕死亡与保护展开推理。"
+   },
+   {
+    "en": "Sects & Violets",
+    "zh": "梦殒春宵",
+    "note": "基础盒内置的进阶官方剧本，包含疯狂与复杂信息互动。"
+   }
+  ],
+  "best": [
+   9,
+   10,
+   11,
+   12
+  ]
+ },
+ {
+  "key": "avalon",
+  "zh": "阿瓦隆",
+  "en": "THE RESISTANCE: AVALON",
+  "cover": "img/games/avalon.jpg",
+  "box": [
+   14.9,
+   19.8,
+   4.7
+  ],
+  "players": [
+   5,
+   10
+  ],
+  "time": [
+   30,
+   30
+  ],
+  "weight": 1.7,
+  "tags": [
+   "推理",
+   "阵营",
+   "聚会"
+  ],
+  "intro": "组队执行任务，识破邪恶阵营并守住梅林的秘密。",
+  "expansions": [
+   {
+    "en": "Lady of the Lake",
+    "zh": "湖中仙女",
+    "note": "基础盒内置的可选模块，可秘密查验其他玩家的阵营。"
+   },
+   {
+    "en": "Lancelot",
+    "zh": "兰斯洛特",
+    "note": "额外 Promo 模块，非原版基础盒内置；加入两名兰斯洛特及阵营变化玩法。"
+   },
+   {
+    "en": "Excalibur",
+    "zh": "王者之剑（暂译）",
+    "note": "额外 Promo 模块，非原版基础盒内置；赋予指定玩家改变任务牌的能力。"
+   }
+  ],
+  "best": [
+   7,
+   8
+  ]
  }
 ]
