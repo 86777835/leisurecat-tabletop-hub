@@ -151,13 +151,13 @@ const wrap = d => { d = ((d % N) + N) % N; return d > N / 2 ? d - N : d; };   //
 const idx = p => ((Math.round(p) % N) + N) % N;
 
 function size() {
-  // px per cm: the tallest box fits the space between header and caption, the widest fits ~60% of a phone screen
-  unit = Math.min((innerHeight - 330) / 34, innerWidth * .58 / 30, 11.5);
+  // px per cm: reserve room on phones for both neighbouring covers at the wider ring radius
+  unit = Math.min((innerHeight - 330) / 34, innerWidth * (innerWidth < 600 ? .42 : .58) / 30, 11.5);
   boxes.forEach((b, i) => {
     const g = GAMES[i];
     b.style.setProperty('--w', g.w * unit + 'px'); b.style.setProperty('--h', g.h * unit + 'px'); b.style.setProperty('--d', g.d * unit + 'px');
   });
-  R = 30 * unit * (innerWidth < 600 ? 1.22 : 1.5);   // tighter ring on phones so the neighbours' covers peek in
+  R = 30 * unit * 1.65;   // separate the covers and thick box sides at the existing 38-degree angle
   root.setProperty('--dr', R + 10 * unit + 'px');
   root.setProperty('--hmax', 34 * unit + 'px');
   root.setProperty('--floor', Math.round(innerHeight * .5 + 34 * unit * .5) + 'px');

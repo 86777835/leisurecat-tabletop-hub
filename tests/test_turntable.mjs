@@ -33,6 +33,38 @@ for (const [n, o] of [['m', { viewport: { width: 390, height: 844 }, deviceScale
     if (k === 1) { eq(n + ' fifth game is botc', await title(), '血染钟楼'); await p.screenshot({ path: `/tmp/claude-501/codex_tasks/shots/turntable_${n}_botc.png` }); }
   }
   eq(n + ' wraps around', await title(), '工业革命：匹兹堡');
+  // Measure every centred game after settling, including the cyclic first/last neighbours.
+  const games = await p.evaluate(async () => (await (await fetch('games.json')).json()).filter(g => g.url));
+  for (const [i, game] of games.entries()) {
+    await p.waitForTimeout(1200);
+    eq(`${n} ${game.key} centred`, await title(), game.zh);
+    const metrics = await p.evaluate(i => {
+      const boxes = [...document.querySelectorAll('.box')];
+      const front = boxes[i].querySelector('.front').getBoundingClientRect();
+      return [(i + boxes.length - 1) % boxes.length, (i + 1) % boxes.length].map(j => {
+        // Include even back-facing faces: this conservatively bounds every visible face.
+        const faces = [...boxes[j].querySelectorAll('.f')].map(f => f.getBoundingClientRect());
+        const r = faces[0];
+        const left = Math.min(...faces.map(f => f.left)), right = Math.max(...faces.map(f => f.right));
+        return {
+          overlap: Math.max(0, ...faces.map(f => Math.min(front.right, f.right) - Math.max(front.left, f.left))),
+          frontVisible: Math.max(0, Math.min(innerWidth, r.right) - Math.max(0, r.left)),
+          clipped: Math.max(0, -left) + Math.max(0, right - innerWidth)
+        };
+      });
+    }, i);
+    const overlap = Math.max(...metrics.map(m => m.overlap));
+    const visible = Math.min(...metrics.map(m => m.frontVisible));
+    const clipped = Math.max(...metrics.map(m => m.clipped));
+    console.log(`SPREAD ${n} ${game.key}: max overlap=${overlap.toFixed(2)}px, min front visible=${visible.toFixed(2)}px, max clipped=${clipped.toFixed(2)}px`);
+    eq(`${n} ${game.key} neighbour overlap <= 4px`, overlap <= 4, true);
+    if (n === 'm') eq(`${n} ${game.key} neighbour front visible >= 50px`, visible >= 50, true);
+    else eq(`${n} ${game.key} neighbours fully inside viewport`, clipped <= .01, true);
+    await p.screenshot({ path: `/tmp/claude-501/codex_tasks/shots/spread_${n}_${game.key}.png` });
+    await p.evaluate(() => document.getElementById('next').click());
+  }
+  await p.waitForTimeout(1200);
+  eq(n + ' measurement loop returns to first game', await title(), games[0].zh);
   // tap the front cover → zoom then navigate
   const front = await p.$$eval('.box', cs => { const c = cs.find(c => c.tabIndex === 0).querySelector('.front'); const r = c.getBoundingClientRect(); return [r.x + r.width / 2, r.y + r.height / 2]; });
   await p.mouse.click(front[0], front[1]); await p.waitForTimeout(380);
