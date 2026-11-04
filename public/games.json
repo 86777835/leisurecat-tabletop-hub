@@ -1,0 +1,911 @@
+[
+ {
+  "key": "pgh",
+  "zh": "工业革命：匹兹堡",
+  "en": "BRASS · PITTSBURGH",
+  "url": "https://pgh.leisurecat.cloud",
+  "box": [
+   29.8,
+   29.8,
+   5.1
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   60,
+   120
+  ],
+  "weight": 3.8,
+  "tags": [
+   "德式",
+   "经济"
+  ],
+  "intro": "镀金时代的美国钢铁带，铺铁路管线、建钢厂炼油厂。",
+  "expansions": []
+ },
+ {
+  "key": "bham",
+  "zh": "工业革命：伯明翰",
+  "en": "BRASS · BIRMINGHAM",
+  "url": "https://bham.leisurecat.cloud",
+  "box": [
+   30.0,
+   30.0,
+   5.0
+  ],
+  "players": [
+   2,
+   4
+  ],
+  "time": [
+   60,
+   120
+  ],
+  "weight": 3.9,
+  "tags": [
+   "德式",
+   "经济"
+  ],
+  "intro": "工业革命时期的英格兰，修运河铁路、建工厂、经营产业网。",
+  "expansions": [],
+  "best": [
+   3,
+   4
+  ]
+ },
+ {
+  "key": "odin",
+  "zh": "奥丁的盛宴",
+  "en": "A FEAST FOR ODIN",
+  "url": "https://odin.leisurecat.cloud",
+  "box": [
+   22.5,
+   31.5,
+   12.0
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   30,
+   120
+  ],
+  "weight": 3.9,
+  "tags": [
+   "德式",
+   "工人放置",
+   "拼图"
+  ],
+  "intro": "维京人出海、狩猎、贸易，把货物拼进领地板。",
+  "expansions": [
+   {
+    "en": "A Feast for Odin: The Norwegians",
+    "zh": "奥丁的盛宴：挪威传奇",
+    "note": "新增四座岛屿、马和猪等新拼块，以及按人数可调的新行动板。"
+   }
+  ],
+  "best": [
+   3
+  ]
+ },
+ {
+  "key": "tl",
+  "zh": "惨剧轮回",
+  "en": "TRAGEDY LOOPER",
+  "url": "https://tl.leisurecat.cloud",
+  "box": [
+   22.2,
+   30.5,
+   4.4
+  ],
+  "players": [
+   2,
+   4
+  ],
+  "time": [
+   120,
+   120
+  ],
+  "weight": 3.5,
+  "tags": [
+   "推理",
+   "阵营"
+  ],
+  "intro": "一人扮演幕后黑手，其余玩家在时间轮回中推理并阻止惨剧。",
+  "expansions": [
+   {
+    "en": "Tragedy Looper: Midnight Circle",
+    "zh": "",
+    "note": "收录 Midnight Zone 与 Mystery Circle 两套惨剧规则，含谎言机制和纯逻辑剧本。"
+   },
+   {
+    "en": "Tragedy Looper: Cosmic Evil",
+    "zh": "",
+    "note": "加入古代魔法主题的两套惨剧，以及教师、士兵、转学生、猫等新角色。"
+   }
+  ],
+  "best": [
+   4
+  ]
+ },
+ {
+  "key": "ark-nova",
+  "zh": "方舟动物园",
+  "en": "ARK NOVA",
+  "cover": "img/games/ark-nova.jpg",
+  "box": [
+   30.0,
+   37.0,
+   7.0
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   90,
+   150
+  ],
+  "weight": 3.8,
+  "tags": [
+   "德式",
+   "引擎构筑"
+  ],
+  "intro": "规划经营现代动物园，用卡牌组合引进动物、支持保育。",
+  "expansions": [
+   {
+    "en": "Ark Nova: Marine Worlds",
+    "zh": "方舟动物园：海洋世界",
+    "note": "加入海洋动物，四张有变化的可选行动卡，以及新奖励板块和终局计分卡。"
+   }
+  ],
+  "best": [
+   2
+  ]
+ },
+ {
+  "key": "dune-imperium",
+  "zh": "沙丘：帝国",
+  "en": "DUNE: IMPERIUM",
+  "cover": "img/games/dune-imperium.jpg",
+  "box": [
+   30.0,
+   30.0,
+   8.2
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   60,
+   120
+  ],
+  "weight": 3.1,
+  "tags": [
+   "卡牌构筑",
+   "工人放置",
+   "对抗"
+  ],
+  "intro": "沙丘宇宙里结合卡组构筑与工人放置，争夺议会与香料。",
+  "expansions": [
+   {
+    "en": "Dune: Imperium – Rise of Ix",
+    "zh": "沙丘：帝国 伊克斯崛起（暂译）",
+    "note": "新增三个家族领袖、伊克斯科技板块、无畏舰和渗透者，还有史诗模式。"
+   },
+   {
+    "en": "Dune: Imperium – Immortality",
+    "zh": "沙丘：帝国 不朽（暂译）",
+    "note": "加入特莱拉克斯基因研究轨道，以及嫁接卡牌、面舞者等新机制。"
+   },
+   {
+    "en": "Dune: Imperium – Bloodlines",
+    "zh": "沙丘：帝国 血脉永续",
+    "note": "基础版和起义都能用：新增萨督卡指挥官、新科技、领袖与合约。"
+   }
+  ],
+  "best": [
+   3,
+   4
+  ]
+ },
+ {
+  "key": "dune-uprising",
+  "zh": "沙丘：帝国 起义",
+  "en": "DUNE: IMPERIUM – UPRISING",
+  "cover": "img/games/dune-uprising.jpg",
+  "box": [
+   30.5,
+   30.5,
+   8.0
+  ],
+  "players": [
+   1,
+   6
+  ],
+  "time": [
+   60,
+   120
+  ],
+  "weight": 3.5,
+  "tags": [
+   "卡牌构筑",
+   "工人放置",
+   "对抗"
+  ],
+  "intro": "沙丘帝国的独立续作，加入沙虫、间谍与6人组队模式。",
+  "expansions": [
+   {
+    "en": "Dune: Imperium – Bloodlines",
+    "zh": "沙丘：帝国 血脉永续",
+    "note": "同时扩展基础版和起义：新增萨督卡指挥官、新科技、领袖与合约。"
+   }
+  ],
+  "best": [
+   4
+  ]
+ },
+ {
+  "key": "arnak",
+  "zh": "阿纳克遗迹",
+  "en": "LOST RUINS OF ARNAK",
+  "cover": "img/games/arnak.jpg",
+  "box": [
+   37.0,
+   25.5,
+   7.5
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   30,
+   120
+  ],
+  "weight": 2.9,
+  "tags": [
+   "卡牌构筑",
+   "工人放置"
+  ],
+  "intro": "在神秘岛屿上探险考古，用卡组构筑加工人放置发掘遗迹。",
+  "expansions": [
+   {
+    "en": "Lost Ruins of Arnak: Expedition Leaders",
+    "zh": "阿纳克遗迹：探险领队（暂译）",
+    "note": "六位各有能力和起始牌组的领队，还有替换研究轨道和新卡牌。"
+   },
+   {
+    "en": "Lost Ruins of Arnak: The Missing Expedition",
+    "zh": "阿纳克遗迹：失落的探险队（暂译）",
+    "note": "六章单人/双人合作战役，附新研究轨道、神器、物品与助手。"
+   }
+  ],
+  "best": [
+   3
+  ]
+ },
+ {
+  "key": "twilight-imperium",
+  "zh": "帝国曙光（暮光帝国）",
+  "en": "TWILIGHT IMPERIUM: FOURTH EDITION",
+  "cover": "img/games/twilight-imperium.jpg",
+  "box": [
+   43.3,
+   30.0,
+   13.4
+  ],
+  "players": [
+   3,
+   6
+  ],
+  "time": [
+   240,
+   480
+  ],
+  "weight": 4.4,
+  "tags": [
+   "美式",
+   "对抗"
+  ],
+  "intro": "史诗级银河 4X：外交、贸易、战争与政治，争夺帝国王座。",
+  "expansions": [
+   {
+    "en": "Twilight Imperium: Fourth Edition – Prophecy of Kings",
+    "zh": "帝国曙光：王者预言（暂译）",
+    "note": "支持 7–8 人，加入新种族、机甲单位、探索牌组、遗物和传奇星球。"
+   },
+   {
+    "en": "Twilight Imperium: Fourth Edition – Thunder's Edge",
+    "zh": "帝国曙光：雷霆边缘（暂译）",
+    "note": "2025 年扩展：可改规则的新内容，加上能自建种族的 Twilight's Fall 模式。"
+   }
+  ],
+  "best": [
+   6
+  ]
+ },
+ {
+  "key": "pandemic-legacy",
+  "zh": "瘟疫危机：传承 第一季",
+  "en": "PANDEMIC LEGACY: SEASON 1",
+  "cover": "img/games/pandemic-legacy.jpg",
+  "box": [
+   37.2,
+   27.0,
+   7.6
+  ],
+  "players": [
+   2,
+   4
+  ],
+  "time": [
+   60,
+   60
+  ],
+  "weight": 2.8,
+  "tags": [
+   "合作",
+   "传承"
+  ],
+  "intro": "合作对抗全球疫情的传承战役，每局结果会永久改变游戏。",
+  "expansions": [],
+  "best": [
+   4
+  ]
+ },
+ {
+  "key": "spirit-island",
+  "zh": "灵迹岛",
+  "en": "SPIRIT ISLAND",
+  "cover": "img/games/spirit-island.jpg",
+  "box": [
+   29.2,
+   29.2,
+   7.8
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   90,
+   120
+  ],
+  "weight": 4.1,
+  "tags": [
+   "合作"
+  ],
+  "intro": "玩家扮演岛上神灵，合作驱逐殖民入侵者，各自能力不对称。",
+  "expansions": [
+   {
+    "en": "Spirit Island: Branch & Claw",
+    "zh": "灵迹岛：枝与爪（暂译）",
+    "note": "加入事件牌堆、野兽/荒野等标记、新神灵、新对手（法国）和新力量卡。"
+   },
+   {
+    "en": "Spirit Island: Jagged Earth",
+    "zh": "灵迹岛：参差大地（暂译）",
+    "note": "10 个新神灵，支持 5–6 人，可组合对手，并加入群岛玩法。"
+   },
+   {
+    "en": "Spirit Island: Nature Incarnate",
+    "zh": "灵迹岛：自然化身（暂译）",
+    "note": "8 个新神灵和 20 个神灵变体（aspects），还有更多内容。"
+   }
+  ],
+  "best": [
+   2
+  ]
+ },
+ {
+  "key": "gloomhaven",
+  "zh": "幽港迷城",
+  "en": "GLOOMHAVEN",
+  "cover": "img/games/gloomhaven.jpg",
+  "box": [
+   40.6,
+   29.2,
+   19.1
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   60,
+   120
+  ],
+  "weight": 3.9,
+  "tags": [
+   "合作",
+   "美式",
+   "传承"
+  ],
+  "intro": "大型战役式合作地城冒险，用手牌管理代替掷骰进行战斗。",
+  "expansions": [
+   {
+    "en": "Gloomhaven: Forgotten Circles",
+    "zh": "幽港迷城：遗忘之环（暂译）",
+    "note": "接在主线战役之后的 20 个新剧本，附新职业 Aesther Diviner、新怪物和新物品。"
+   }
+  ],
+  "best": [
+   3
+  ]
+ },
+ {
+  "key": "wingspan",
+  "zh": "展翅翱翔",
+  "en": "WINGSPAN",
+  "cover": "img/games/wingspan.jpg",
+  "box": [
+   29.7,
+   29.7,
+   7.1
+  ],
+  "players": [
+   1,
+   5
+  ],
+  "time": [
+   40,
+   70
+  ],
+  "weight": 2.5,
+  "tags": [
+   "家庭",
+   "引擎构筑"
+  ],
+  "intro": "收集鸟类卡打造栖息地，产蛋、觅食、抽卡，组成引擎。",
+  "expansions": [
+   {
+    "en": "Wingspan: European Expansion",
+    "zh": "展翅翱翔：欧洲篇",
+    "note": "81 张欧洲鸟类卡和新奖励卡，附收纳盘、紫色鸟蛋和新计分本。"
+   },
+   {
+    "en": "Wingspan: Oceania Expansion",
+    "zh": "展翅翱翔：大洋洲篇",
+    "note": "澳新鸟类，加入花蜜资源，并换上新的玩家板。"
+   }
+  ],
+  "best": [
+   3
+  ]
+ },
+ {
+  "key": "cascadia",
+  "zh": "卡斯卡迪亚",
+  "en": "CASCADIA",
+  "cover": "img/games/cascadia.jpg",
+  "box": [
+   23.9,
+   23.9,
+   7.1
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   30,
+   45
+  ],
+  "weight": 1.8,
+  "tags": [
+   "家庭",
+   "拼图"
+  ],
+  "intro": "拼放地形板块并安放动物标记，打造太平洋西北部生态。",
+  "expansions": [
+   {
+    "en": "Cascadia: Landmarks",
+    "zh": "卡斯卡迪亚：地标（暂译）",
+    "note": "加入地标模块、新动物计分卡和新地形板块，最多支持 6 人。"
+   }
+  ],
+  "best": [
+   2,
+   3
+  ]
+ },
+ {
+  "key": "azul",
+  "zh": "花砖物语",
+  "en": "AZUL",
+  "cover": "img/games/azul.jpg",
+  "box": [
+   26.0,
+   26.0,
+   7.0
+  ],
+  "players": [
+   2,
+   4
+  ],
+  "time": [
+   30,
+   45
+  ],
+  "weight": 1.8,
+  "tags": [
+   "家庭",
+   "拼图"
+  ],
+  "intro": "从工坊里挑花砖，铺满宫殿墙面，规则简单易上手。",
+  "expansions": [
+   {
+    "en": "Azul: Crystal Mosaic",
+    "zh": "花砖物语：马赛克水晶",
+    "note": "双面新玩家板，以及可防止磁砖滑动的塑料凹槽覆盖板。"
+   }
+  ],
+  "best": [
+   2
+  ]
+ },
+ {
+  "key": "7wonders-duel",
+  "zh": "七大奇迹：对决",
+  "en": "7 WONDERS DUEL",
+  "cover": "img/games/7wonders-duel.jpg",
+  "box": [
+   20.3,
+   20.3,
+   5.1
+  ],
+  "players": [
+   2,
+   2
+  ],
+  "time": [
+   30,
+   30
+  ],
+  "weight": 2.2,
+  "tags": [
+   "双人",
+   "对抗"
+  ],
+  "intro": "两人争夺文明发展，可靠科技、军事或分数三条路取胜。",
+  "expansions": [
+   {
+    "en": "7 Wonders Duel: Pantheon",
+    "zh": "七大奇迹：对决 万神殿",
+    "note": "加入神祇和神庙，以及两个新奇迹。"
+   },
+   {
+    "en": "7 Wonders Duel: Agora",
+    "zh": "七大奇迹：对决 市政广场",
+    "note": "加入元老院板图、议员卡和密谋卡，元老院多数可直接获胜。"
+   }
+  ],
+  "best": [
+   2
+  ]
+ },
+ {
+  "key": "codenames",
+  "zh": "机密代号",
+  "en": "CODENAMES",
+  "cover": "img/games/codenames.jpg",
+  "box": [
+   16.2,
+   23.2,
+   5.0
+  ],
+  "players": [
+   2,
+   8
+  ],
+  "time": [
+   15,
+   15
+  ],
+  "weight": 1.3,
+  "tags": [
+   "聚会",
+   "阵营"
+  ],
+  "intro": "两队队长各用一个词做提示，看哪队先找出全部己方特工。",
+  "expansions": [],
+  "best": [
+   6,
+   8
+  ]
+ },
+ {
+  "key": "terraforming-mars",
+  "zh": "殖民火星",
+  "en": "TERRAFORMING MARS",
+  "cover": "img/games/terraforming-mars.jpg",
+  "box": [
+   29.7,
+   29.7,
+   7.1
+  ],
+  "players": [
+   1,
+   5
+  ],
+  "time": [
+   120,
+   120
+  ],
+  "weight": 3.3,
+  "tags": [
+   "德式",
+   "引擎构筑"
+  ],
+  "intro": "各大公司合作改造火星，打出项目卡提升温度、氧气与海洋。",
+  "expansions": [
+   {
+    "en": "Terraforming Mars: Prelude",
+    "zh": "殖民火星：前奏（繁中：序幕）",
+    "note": "开局多选前奏卡加速引擎，另有新公司和项目卡，几乎必加。"
+   },
+   {
+    "en": "Terraforming Mars: Venus Next",
+    "zh": "殖民火星：金星（繁中：接续金星）",
+    "note": "加入金星改造轨道、浮空城市和相关卡牌。"
+   },
+   {
+    "en": "Terraforming Mars: Colonies",
+    "zh": "殖民火星：殖民地",
+    "note": "外太阳系殖民地板块，可以建殖民地、派贸易船队。"
+   },
+   {
+    "en": "Terraforming Mars: Turmoil",
+    "zh": "殖民火星：动荡",
+    "note": "加入政党、议会和全球事件，每代都会有变化。"
+   }
+  ],
+  "best": [
+   3
+  ]
+ },
+ {
+  "key": "gaia-project",
+  "zh": "盖亚计划",
+  "en": "GAIA PROJECT",
+  "cover": "img/games/gaia-project.jpg",
+  "box": [
+   36.5,
+   30.0,
+   8.0
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   60,
+   150
+  ],
+  "weight": 4.4,
+  "tags": [
+   "德式",
+   "经济"
+  ],
+  "intro": "非对称种族在银河中殖民和改造星球，发展科技、组建联邦。",
+  "expansions": [
+   {
+    "en": "Gaia Project: The Lost Fleet",
+    "zh": "盖亚计划：失落的舰队",
+    "note": "加入失落舰队的飞船、新行动格、新高级科技和回合计分，并调整种族平衡。"
+   }
+  ],
+  "best": [
+   3,
+   4
+  ]
+ },
+ {
+  "key": "great-western-trail",
+  "zh": "大西部之路",
+  "en": "GREAT WESTERN TRAIL",
+  "cover": "img/games/great-western-trail.jpg",
+  "box": [
+   29.5,
+   29.5,
+   7.5
+  ],
+  "players": [
+   2,
+   4
+  ],
+  "time": [
+   75,
+   150
+  ],
+  "weight": 3.7,
+  "tags": [
+   "德式",
+   "卡牌构筑"
+  ],
+  "intro": "在美国西部赶牛去堪萨斯城，用牌组和建筑优化路线。",
+  "expansions": [
+   {
+    "en": "Great Western Trail: Rails to the North",
+    "zh": "大西部之路：北方铁路",
+    "note": "新增北方铁路网、站长板块、私人建筑和扩大的玩家板。"
+   }
+  ],
+  "best": [
+   3
+  ]
+ },
+ {
+  "key": "root",
+  "zh": "茂林源记",
+  "en": "ROOT",
+  "cover": "img/games/root.jpg",
+  "box": [
+   29.0,
+   22.5,
+   7.0
+  ],
+  "players": [
+   2,
+   4
+  ],
+  "time": [
+   60,
+   90
+  ],
+  "weight": 3.8,
+  "tags": [
+   "美式",
+   "对抗"
+  ],
+  "intro": "林地动物间的非对称战争，每个阵营的规则和获胜方式都不同。",
+  "expansions": [
+   {
+    "en": "Root: The Riverfolk Expansion",
+    "zh": "茂林源记：河岸扩充",
+    "note": "新增河流公司、蜥蜴教两个阵营和第二个流浪者，支持 1–6 人及机器人规则。"
+   },
+   {
+    "en": "Root: The Underworld Expansion",
+    "zh": "茂林源记：地底扩充",
+    "note": "新增地下公国、乌鸦密谋两个阵营，以及山地、湖泊两张新地图。"
+   },
+   {
+    "en": "Root: The Marauder Expansion",
+    "zh": "茂林源记：劫掠扩展",
+    "note": "新增 Lord of the Hundreds、Keepers in Iron 两个阵营，以及雇佣兵（Hirelings）系统。"
+   }
+  ],
+  "best": [
+   4
+  ]
+ },
+ {
+  "key": "scythe",
+  "zh": "镰刀战争",
+  "en": "SCYTHE",
+  "cover": "img/games/scythe.jpg",
+  "box": [
+   36.5,
+   30.0,
+   9.8
+  ],
+  "players": [
+   1,
+   5
+  ],
+  "time": [
+   115,
+   115
+  ],
+  "weight": 3.5,
+  "tags": [
+   "德式",
+   "对抗"
+  ],
+  "intro": "架空1920年代东欧，驾驶机甲扩张领地，搞生产和建设。",
+  "expansions": [
+   {
+    "en": "Scythe: Invaders from Afar",
+    "zh": "镰刀战争：远方的入侵者",
+    "note": "新增两个派系，支持 6–7 人。"
+   },
+   {
+    "en": "Scythe: The Wind Gambit",
+    "zh": "镰刀战争：风中的诡计",
+    "note": "加入飞艇和不同的终局条件模块。"
+   },
+   {
+    "en": "Scythe: The Rise of Fenris",
+    "zh": "镰刀战争：恶狼的崛起",
+    "note": "8 章战役，附可单独使用的多种模块。"
+   }
+  ],
+  "best": [
+   4
+  ]
+ },
+ {
+  "key": "war-of-the-ring",
+  "zh": "魔戒圣战",
+  "en": "WAR OF THE RING: SECOND EDITION",
+  "cover": "img/games/war-of-the-ring.jpg",
+  "box": [
+   40.6,
+   27.9,
+   8.9
+  ],
+  "players": [
+   2,
+   4
+  ],
+  "time": [
+   150,
+   240
+  ],
+  "weight": 4.2,
+  "tags": [
+   "美式",
+   "阵营",
+   "双人",
+   "对抗"
+  ],
+  "intro": "重现魔戒史诗：护戒队潜行毁戒，魔影大军兵临中土。",
+  "expansions": [
+   {
+    "en": "War of the Ring: Lords of Middle-earth",
+    "zh": "魔戒圣战：中土领主（暂译）",
+    "note": "加入新的角色和爪牙、精灵戒指持有者骰，以及瑞文戴尔会议规则。"
+   },
+   {
+    "en": "War of the Ring: Kings of Middle-earth",
+    "zh": "魔戒圣战：中土列王",
+    "note": "强化自由民族的国王，增加攻城规则和攻城器械，并扩充魔影军队。"
+   }
+  ],
+  "best": [
+   2
+  ]
+ },
+ {
+  "key": "twilight-struggle",
+  "zh": "冷战热斗",
+  "en": "TWILIGHT STRUGGLE",
+  "cover": "img/games/twilight-struggle.jpg",
+  "box": [
+   23.1,
+   30.5,
+   5.3
+  ],
+  "players": [
+   2,
+   2
+  ],
+  "time": [
+   120,
+   180
+  ],
+  "weight": 3.6,
+  "tags": [
+   "双人",
+   "对抗",
+   "阵营"
+  ],
+  "intro": "两人重演冷战四十五年，用事件卡在全球争夺影响力。",
+  "expansions": [
+   {
+    "en": "Twilight Struggle: Turn Zero",
+    "zh": "冷战热斗：零回合（暂译）",
+    "note": "开局前先结算二战结束时的关键事件，决定初始局势。"
+   }
+  ],
+  "best": [
+   2
+  ]
+ }
+]

@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0d12">
+<title>桌游小助手 · 线下开局、计分、规则问答</title>
+<meta name="description" content="桌游线下对局的手机助手合集：工业革命·匹兹堡、工业革命·伯明翰、奥丁的盛宴、惨剧轮回。一桌人扫码同步，排顺位、记流程、算分、查规则。">
+<!-- share card (WeChat / other apps): title, summary and a square thumbnail -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://boardgame.leisurecat.cloud/">
+<meta property="og:title" content="桌游小助手 · 线下开局、计分、规则问答">
+<meta property="og:description" content="工业革命·匹兹堡、工业革命·伯明翰、奥丁的盛宴、惨剧轮回：一桌人扫码同步，排顺位、记流程、算分、查规则">
+<meta property="og:image" content="https://boardgame.leisurecat.cloud/img/share.jpg">
+<meta property="og:image:width" content="600">
+<meta property="og:image:height" content="600">
+<meta itemprop="name" content="桌游小助手 · 线下开局、计分、规则问答">
+<meta itemprop="description" content="工业革命·匹兹堡、工业革命·伯明翰、奥丁的盛宴、惨剧轮回：一桌人扫码同步，排顺位、记流程、算分、查规则">
+<meta itemprop="image" content="https://boardgame.leisurecat.cloud/img/share.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%231b2230'/><rect x='14' y='14' width='36' height='36' rx='7' fill='%23e0c27a'/><g fill='%231b2230'><circle cx='24' cy='24' r='4'/><circle cx='40' cy='24' r='4'/><circle cx='32' cy='32' r='4'/><circle cx='24' cy='40' r='4'/><circle cx='40' cy='40' r='4'/></g></svg>">
+<link rel="preconnect" href="https://pgh.leisurecat.cloud">
+<link rel="preconnect" href="https://bham.leisurecat.cloud">
+<link rel="preconnect" href="https://odin.leisurecat.cloud">
+<link rel="preconnect" href="https://tl.leisurecat.cloud">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Noto+Serif+SC:wght@900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d12; --text:#f3ead6; --dim:rgba(243,234,214,.55); --brass:#e0c27a;
+  --serif:"Noto Serif SC","Songti SC","STSong",serif;
+  --sans:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:var(--bg)}
+body{font-family:var(--sans);color:var(--text);user-select:none;-webkit-user-select:none}
+
+/* backdrop: the selected box cover, blurred and darkened (tiny images upscaled, so the blur is cheap) */
+.bg{position:fixed;inset:-40px;background:center/cover no-repeat;filter:blur(18px) brightness(.4) saturate(1.2);opacity:0;transition:opacity .6s}
+.bg.on{opacity:1}
+.vignette{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 25%,rgba(0,0,0,.7) 100%);pointer-events:none}
+
+.brand{position:fixed;top:calc(env(safe-area-inset-top) + 18px);left:0;right:0;text-align:center;z-index:5;transition:opacity .4s}
+.brand .en{font:500 11px "Cinzel",var(--serif);letter-spacing:6px;color:var(--brass);opacity:.85}
+.brand .zh{margin-top:6px;font:900 15px var(--serif);letter-spacing:6px;color:var(--dim)}
+
+/* the stage: boxes stand on a turntable at --floor (y), seen slightly from above */
+.stage{position:fixed;inset:0;perspective:var(--persp,1200px);perspective-origin:50% 22%;touch-action:none;cursor:grab}
+.stage.drag{cursor:grabbing}
+.ring{position:absolute;left:50%;top:var(--floor,62%);width:0;height:0;transform-style:preserve-3d}
+
+/* turntable: a disc lying flat, centred behind the front box, turning with the boxes */
+.disc{position:absolute;left:0;top:0;width:calc(var(--dr) * 2);height:calc(var(--dr) * 2);margin:calc(var(--dr) * -1) 0 0 calc(var(--dr) * -1);border-radius:50%;
+  background:
+    repeating-conic-gradient(from 0deg,rgba(224,194,122,.22) 0 .6deg,transparent .6deg 7.5deg),
+    radial-gradient(circle,transparent 0 calc(var(--dr) * .9),rgba(224,194,122,.55) calc(var(--dr) * .9) calc(var(--dr) * .9 + 2px),transparent calc(var(--dr) * .9 + 2px)),
+    radial-gradient(circle,#2a2520 0%,#17140f 62%,#0e0c09 100%);
+  box-shadow:0 0 0 3px #3b3125,0 0 0 6px #120f0b,0 0 80px 10px rgba(224,194,122,.12);pointer-events:none}
+.disc::after{content:"";position:absolute;inset:-3%;border-radius:50%;background:radial-gradient(circle,transparent 66%,rgba(0,0,0,.35) 72%,transparent 74%)}
+
+/* a box: front cover, sides and top printed from the cover art */
+.box{position:absolute;left:0;top:0;transform-style:preserve-3d;cursor:inherit;outline:none}
+.f{position:absolute;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#111 center/cover no-repeat}
+.f.front{width:var(--w);height:var(--h);left:calc(var(--w) / -2);top:calc(var(--h) * -1);transform:translateZ(calc(var(--d) / 2));border-radius:3px}
+.f.back{width:var(--w);height:var(--h);left:calc(var(--w) / -2);top:calc(var(--h) * -1);transform:rotateY(180deg) translateZ(calc(var(--d) / 2));filter:brightness(.35)}
+.f.side{width:var(--d);height:var(--h);left:calc(var(--d) / -2);top:calc(var(--h) * -1);background-size:auto 100%}
+.f.r{transform:rotateY(90deg) translateZ(calc(var(--w) / 2));background-position:right center;filter:brightness(.42) saturate(.8)}
+.f.l{transform:rotateY(-90deg) translateZ(calc(var(--w) / 2));background-position:left center;filter:brightness(.42) saturate(.8)}
+.f.top{width:var(--w);height:var(--d);left:calc(var(--w) / -2);top:calc(var(--d) / -2);transform:translateY(calc(var(--h) * -1)) rotateX(90deg);background-size:100% auto;background-position:center top;filter:brightness(.8)}
+.f.front::after{content:"";position:absolute;inset:0;border-radius:3px;background:linear-gradient(115deg,rgba(255,255,255,.14),transparent 38%),#000;
+  background-blend-mode:normal;opacity:var(--shade,0);pointer-events:none}
+.f.front::before{content:"";position:absolute;inset:0;border-radius:3px;background:linear-gradient(115deg,rgba(255,255,255,.16),transparent 35%);pointer-events:none;z-index:1}
+.shadow{position:absolute;width:calc(var(--w) * 1.25);height:calc(var(--d) * 2.2);left:calc(var(--w) * -.625);top:calc(var(--d) * -1.1);transform:rotateX(90deg) translateZ(1px);
+  background:radial-gradient(ellipse,rgba(0,0,0,.75),transparent 70%);pointer-events:none}
+.box:focus-visible .front{box-shadow:0 0 0 3px var(--brass)}
+
+/* caption under the turntable */
+.cap{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 30px);text-align:center;z-index:5;pointer-events:none;transition:opacity .4s}
+.cap .en{font:500 11px "Cinzel",var(--serif);letter-spacing:5px;color:var(--brass)}
+.cap h1{margin:8px 0 12px;font:900 24px/1.25 var(--serif);letter-spacing:4px;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.cap .fade{transition:opacity .25s,transform .25s}
+.cap.swap .fade{opacity:0;transform:translateY(6px)}
+.dots{display:flex;gap:8px;justify-content:center}
+.dots i{width:6px;height:6px;border-radius:3px;background:rgba(243,234,214,.3);transition:width .3s,background .3s}
+.dots i.on{width:20px;background:var(--brass)}
+.hint{margin-top:12px;font-size:12px;letter-spacing:2px;color:var(--dim)}
+.nav{position:fixed;top:calc(var(--floor,62%) - var(--hmax,300px) / 2);z-index:6;width:44px;height:44px;margin-top:-22px;border-radius:50%;border:1px solid rgba(243,234,214,.25);
+  background:rgba(0,0,0,.25);color:var(--text);font-size:20px;line-height:1;cursor:pointer;backdrop-filter:blur(6px);transition:opacity .4s,background .2s}
+.nav:hover{background:rgba(0,0,0,.5)}
+.nav.l{left:max(16px,calc(50% - var(--dr) - 30px))}
+.nav.r{right:max(16px,calc(50% - var(--dr) - 30px))}
+@media (pointer:coarse){.nav{display:none}}
+.legal{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 8px);text-align:center;font-size:10px;color:rgba(243,234,214,.3);z-index:5;transition:opacity .4s}
+
+/* entering a game: the box cover flies to full screen and blurs away */
+.zoom{position:fixed;z-index:20;object-fit:cover;border-radius:3px;pointer-events:none;
+  transition:left .75s cubic-bezier(.7,0,.25,1),top .75s cubic-bezier(.7,0,.25,1),width .75s cubic-bezier(.7,0,.25,1),height .75s cubic-bezier(.7,0,.25,1),border-radius .75s,filter .75s ease-in}
+.zoom.full{left:0!important;top:0!important;width:100vw!important;height:100vh!important;border-radius:0;filter:blur(22px) brightness(1.15) saturate(1.3)}
+body.going .stage,body.going .cap,body.going .brand,body.going .nav,body.going .legal{opacity:0;transition:opacity .35s}
+</style>
+<link rel="stylesheet" href="tools.css">
+</head>
+<body>
+<!-- WeChat's in-app share takes the first image on the page as the thumbnail; it skips display:none, so hide it the way the 匹兹堡 site does -->
+<div style="position:absolute;width:0;height:0;overflow:hidden"><img src="img/share.jpg" alt=""></div>
+<div class="bg" id="bg0"></div><div class="bg" id="bg1"></div>
+<div class="vignette"></div>
+<div class="brand"><div class="en">LEISURECAT · TABLETOP</div><div class="zh">桌游小助手</div></div>
+<button class="pill l" id="orderBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a4 4 0 0 1 4 4v5.3l3.6 1.1a2 2 0 0 1 1.4 2.2l-.9 6A2 2 0 0 1 18.1 22h-7.6a2 2 0 0 1-1.6-.8l-4.1-5.5a1.6 1.6 0 0 1 2.4-2.1L9 15.3V6a3 3 0 0 1 3-4z"/></svg>定先后手</button>
+<button class="pill r" id="pickBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm3 3.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM12 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-4 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>帮我选游戏</button>
+
+<div class="stage" id="stage"><div class="ring" id="ring"><div class="disc" id="disc"></div></div></div>
+<button class="nav l" id="prev" aria-label="上一个">‹</button>
+<button class="nav r" id="next" aria-label="下一个">›</button>
+
+<div class="cap" id="cap">
+  <div class="fade"><div class="en" id="en"></div><h1 id="zh"></h1><button class="rate" id="rate"></button></div>
+  <div class="dots" id="dots"></div>
+  <div class="hint">左右滑动转动转盘 · 轻触游戏盒进入</div>
+</div>
+<div class="legal">非官方玩家工具 · 游戏盒封面版权归各出版社所有</div>
+
+<script type="module">
+// Box sizes are the real boxes' proportions in cm (width × height × depth), so they stand on the turntable at true scale.
+import { open as openReviews } from './reviews.js';
+// games.json is the game library shared with the picker and the AI endpoint; the turntable shows the games that have a helper site
+const ALL = await fetch('games.json').then(r => r.json());
+const GAMES = ALL.filter(g => g.url).map(g => ({ ...g, k: g.key, w: g.box[0], h: g.box[1], d: g.box[2] }));
+let ratings = {};
+fetch('/api/reviews').then(r => r.ok ? r.json() : {}).then(j => { ratings = j; showRating(); }).catch(() => {});
+const N = GAMES.length;
+const STEP = 38;                 // degrees between neighbouring boxes on the turntable
+const $ = id => document.getElementById(id);
+const stage = $('stage'), ring = $('ring'), disc = $('disc'), cap = $('cap'), root = document.documentElement.style;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const boxes = GAMES.map((g, i) => {
+  const b = document.createElement('div');
+  b.className = 'box'; b.dataset.i = i; b.setAttribute('role', 'button'); b.setAttribute('aria-label', g.zh);
+  const img = `url(img/box-${g.k}.jpg)`;
+  b.innerHTML = ['front', 'back', 'side r', 'side l', 'top'].map(c => `<div class="f ${c}" style="background-image:${img}"></div>`).join('') + '<div class="shadow"></div>';
+  ring.appendChild(b); return b;
+});
+$('dots').innerHTML = GAMES.map(() => '<i></i>').join('');
+
+let saved = 0;
+try { saved = +localStorage.getItem('hub-game') || 0; } catch {}
+let pos = ((saved % N) + N) % N, target = pos, R = 300, unit = 8, active = -1, bgFlip = 0;
+
+const wrap = d => { d = ((d % N) + N) % N; return d > N / 2 ? d - N : d; };   // shortest signed distance on the ring
+const idx = p => ((Math.round(p) % N) + N) % N;
+
+function size() {
+  // px per cm: the tallest box fits the space between header and caption, the widest fits ~60% of a phone screen
+  unit = Math.min((innerHeight - 330) / 34, innerWidth * .58 / 30, 11.5);
+  boxes.forEach((b, i) => {
+    const g = GAMES[i];
+    b.style.setProperty('--w', g.w * unit + 'px'); b.style.setProperty('--h', g.h * unit + 'px'); b.style.setProperty('--d', g.d * unit + 'px');
+  });
+  R = 30 * unit * (innerWidth < 600 ? 1.22 : 1.5);   // tighter ring on phones so the neighbours' covers peek in
+  root.setProperty('--dr', R + 10 * unit + 'px');
+  root.setProperty('--hmax', 34 * unit + 'px');
+  root.setProperty('--floor', Math.round(innerHeight * .5 + 34 * unit * .5) + 'px');
+  root.setProperty('--persp', Math.max(800, 30 * unit * 3.4) + 'px');   // closer camera on small screens: more of the turntable shows
+  layout();
+}
+
+function layout() {
+  boxes.forEach((b, i) => {
+    const d = wrap(i - pos), a = d * STEP, r = a * Math.PI / 180, ad = Math.abs(d);
+    b.style.transform = `translate3d(${(Math.sin(r) * R).toFixed(1)}px,0,${((Math.cos(r) - 1) * R).toFixed(1)}px) rotateY(${a.toFixed(2)}deg)`;
+    b.style.opacity = ad > 1.5 ? Math.max(0, 1 - (ad - 1.5) * 2.5) : 1;
+    b.style.setProperty('--shade', Math.min(ad, 1.3) * .45);
+    b.tabIndex = ad < .5 ? 0 : -1;
+  });
+  disc.style.transform = `translateZ(${-R}px) rotateX(90deg) rotateZ(${(pos * STEP).toFixed(2)}deg)`;
+  const a = idx(pos);
+  if (a !== active) select(a);
+}
+
+function showRating() {
+  if (active < 0) return;
+  const r = ratings[GAMES[active].key];
+  $('rate').innerHTML = r?.count ? `<b>★ ${r.avg}</b>${r.count} 条评价` : '<b>☆</b>暂无评价';
+}
+$('rate').onclick = () => openReviews(GAMES[active]);
+$('orderBtn').onclick = () => import('./order.js').then(m => m.open());
+$('pickBtn').onclick = () => import('./picker.js').then(m => m.open(ALL, ratings, key => {
+  // turn the picked game to the front, then enter it
+  const i = GAMES.findIndex(g => g.key === key);
+  go(Math.round(pos + wrap(i - pos)));
+  setTimeout(() => enter(i), 700);
+}));
+
+function select(a) {
+  const first = active < 0;
+  active = a;
+  try { localStorage.setItem('hub-game', a); } catch {}
+  const g = GAMES[a];
+  const show = () => { $('en').textContent = g.en; $('zh').textContent = g.zh; showRating(); cap.classList.remove('swap'); };
+  if (first) show(); else { cap.classList.add('swap'); setTimeout(show, 180); }
+  [...$('dots').children].forEach((d, i) => d.classList.toggle('on', i === a));
+  const next = $('bg' + bgFlip), prev = $('bg' + (1 - bgFlip));
+  next.style.backgroundImage = `url(img/bg-${g.k}.jpg)`;
+  next.classList.add('on'); prev.classList.remove('on'); bgFlip = 1 - bgFlip;
+}
+
+// easing toward the target
+let raf = 0;
+function tick() {
+  const diff = target - pos;
+  if (Math.abs(diff) < .0008) { pos = target; layout(); raf = 0; return; }
+  pos += diff * (reduce ? 1 : .12);
+  layout(); raf = requestAnimationFrame(tick);
+}
+const go = t => { target = t; if (!raf) raf = requestAnimationFrame(tick); };
+const step = s => go(Math.round(target) + s);
+
+// drag / swipe with a little fling
+let drag = null;
+const perStep = () => 30 * unit * 1.05;   // px of drag that turns the table by one box
+stage.addEventListener('pointerdown', e => {
+  if (e.button > 0 || document.body.classList.contains('going')) return;
+  drag = { x: e.clientX, p: pos, lx: e.clientX, lt: e.timeStamp, v: 0, moved: false, id: e.pointerId };
+  cancelAnimationFrame(raf); raf = 0; target = pos;
+});
+addEventListener('pointermove', e => {
+  if (!drag || e.pointerId !== drag.id) return;
+  const dx = e.clientX - drag.x;
+  if (!drag.moved && Math.abs(dx) > 6) { drag.moved = true; stage.classList.add('drag'); stage.setPointerCapture?.(e.pointerId); }
+  if (!drag.moved) return;
+  const dt = Math.max(1, e.timeStamp - drag.lt);
+  drag.v = .8 * drag.v + .2 * (-(e.clientX - drag.lx) / perStep() / dt);
+  drag.lx = e.clientX; drag.lt = e.timeStamp;
+  pos = target = drag.p - dx / perStep();
+  layout();
+});
+function release(e) {
+  if (!drag || e.pointerId !== drag.id) return;
+  const d = drag; drag = null; stage.classList.remove('drag');
+  if (d.moved) { go(Math.round(pos + Math.max(-1.5, Math.min(1.5, d.v * 220)))); return; }
+  // a tap: the front box enters, a side box turns to the front
+  const b = document.elementFromPoint(e.clientX, e.clientY)?.closest('.box');
+  if (!b) return;
+  const i = +b.dataset.i, off = wrap(i - pos);
+  if (Math.abs(off) < .5) enter(i); else go(Math.round(pos + off));
+}
+addEventListener('pointerup', release);
+addEventListener('pointercancel', release);
+
+let wheelAcc = 0, wheelAt = 0;
+stage.addEventListener('wheel', e => {
+  e.preventDefault();
+  wheelAcc += Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+  if (Math.abs(wheelAcc) > 40 && e.timeStamp - wheelAt > 320) { step(Math.sign(wheelAcc)); wheelAcc = 0; wheelAt = e.timeStamp; }
+}, { passive: false });
+$('prev').onclick = () => step(-1);
+$('next').onclick = () => step(1);
+addEventListener('keydown', e => {
+  if (document.querySelector('.sheet,.fz')) return;   // a tool panel is open
+  if (e.key === 'ArrowLeft') step(-1);
+  else if (e.key === 'ArrowRight') step(1);
+  else if (e.key === 'Enter' && !e.target.closest('.nav')) { e.preventDefault(); enter(idx(target)); }
+});
+
+function enter(i) {
+  const g = GAMES[i];
+  if (reduce) { location.href = g.url; return; }
+  if (document.body.classList.contains('going')) return;
+  const r = boxes[i].querySelector('.front').getBoundingClientRect();
+  const z = document.createElement('img');
+  z.className = 'zoom'; z.src = `img/box-${g.k}.jpg`; z.alt = '';
+  Object.assign(z.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
+  document.body.appendChild(z);
+  document.body.classList.add('going');
+  z.getBoundingClientRect();   // start the transition from the box's spot
+  z.classList.add('full');
+  setTimeout(() => { location.href = g.url; }, 720);
+}
+// back button (page restored from cache): undo the entering animation
+addEventListener('pageshow', e => {
+  if (!e.persisted) return;
+  document.querySelectorAll('.zoom').forEach(z => z.remove());
+  document.body.classList.remove('going');
+});
+
+addEventListener('resize', size);
+size();
+</script>
+</body>
+</html>
