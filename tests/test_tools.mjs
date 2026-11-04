@@ -21,34 +21,62 @@ eq('reviews list', await p.$$eval('.rv-item b', l => l.map(x => x.textContent).s
 await p.screenshot({ path: 'shots/tools_reviews.png' });
 await p.click('.sheet .sh-x'); await wait(400);
 
-// picker: filters, blind box, result
+// picker: hard player filter, sorted list and exclusive expansion
+const G = await (await fetch(base + 'games.json')).json();
 await p.click('#pickBtn'); await p.waitForSelector('.chips[data-k="n"]');
 await p.click('.chips[data-k="n"] button[data-v="1"]');
 await p.click('.chips[data-k="weight"] button[data-v="heavy"]');
-await p.screenshot({ path: 'shots/tools_picker_form.png' });
-await p.click('#pGo'); await wait(900);
-await p.screenshot({ path: 'shots/tools_picker_shuffle.png' });
-await p.waitForSelector('.res', { timeout: 10000 }); await wait(1200);
-const G = await (await fetch(base + 'games.json')).json();
-const winName = await p.textContent('.res h3'); const win = G.find(g => g.zh === winName);
-eq('1 player + heavy: winner seats 1 and is heavy', [win.players[0] === 1, win.weight >= 3.4], [true, true]);
-const sc = +(await p.textContent('#pScore'));
-eq('score shown 50-99', sc > 50 && sc < 100, true);
-eq('ranking lists 6 others, highest first', await p.$$eval('.rank s', l => { const v = l.map(x => +x.textContent); return v.length === 6 && v.every((x, i) => !i || x <= v[i - 1] + 3); }), true);
+await p.click('#pGo'); await p.waitForSelector('.pick-list');
+const keys = await p.$$eval('.pick-main .pick-row', rows => rows.map(r => r.dataset.key));
+eq('filter contains all and only games seating 1', keys.slice().sort(), G.filter(g => g.players[0] <= 1 && g.players[1] >= 1).map(g => g.key).sort());
+eq('recommendation descending', await p.$$eval('.pick-main .pick-score b', l => { const v = l.map(x => +x.textContent); return v.every((x, i) => !i || x <= v[i - 1]); }), true);
+eq('filter has no animation', await p.locator('.draw').count(), 0);
+eq('excluded collapsed', await p.locator('.pick-excluded').getAttribute('open'), null);
+await p.click('.pick-excluded summary');
+eq('excluded games do not seat 1', await p.$$eval('.pick-excluded .pick-row', rows => rows.map(r => r.dataset.key).sort()), G.filter(g => g.players[0] > 1).map(g => g.key).sort());
+await p.click('.pick-excluded summary');
+await p.click('.pick-main .pick-row[data-key="odin"] .pick-toggle');
+eq('helper entry visible', await p.locator('[data-enter="odin"]').isVisible(), true);
+eq('no mobile horizontal overflow', await p.$eval('.sh-body', e => e.scrollWidth <= e.clientWidth), true);
+await p.$eval('.sh-body', e => e.scrollTop = 0);
 await p.screenshot({ path: 'shots/tools_picker_result.png' });
-// random
-await p.click('#pBack'); await p.click('#pRnd'); await p.waitForSelector('.res', { timeout: 10000 });
+await p.screenshot({ path: '/tmp/claude-501/codex_tasks/shots/filter_mobile.png' });
+await p.click('[data-enter="odin"]'); await p.waitForURL('https://odin.leisurecat.cloud/');
+eq('filter entry navigates to helper', p.url(), 'https://odin.leisurecat.cloud/');
+await p.goBack(); await p.waitForSelector('.box', { state: 'attached' }); await wait(600);
+await p.click('#pickBtn');
+await p.click('.chips[data-k="helper"] button[data-v="yes"]');
+await p.click('#pGo');
+eq('helper hard filter', await p.$$eval('.pick-main .pick-row', rows => rows.map(r => r.dataset.key).sort()), G.filter(g => g.url && g.players[0] <= 1).map(g => g.key).sort());
+await p.click('#pBack'); await p.click('#pRnd');
+await p.waitForSelector('.draw.shake');
+eq('random still shuffles', await p.locator('.mbox').count() > 0, true);
+await p.waitForSelector('.res', { timeout: 10000 });
+const documentName = await p.textContent('.res h3');
+eq('random respects hard filters', G.some(g => g.zh === documentName && g.url && g.players[0] <= 1), true);
 eq('random shows label instead of score', await p.textContent('.res .score span'), '随机抽中');
-// AI (mocked endpoint)
-await p.route('**/api/pick', r => r.fulfill({ json: { pick: 'tl', scores: { pgh: 40, bham: 42, odin: 30, tl: 91 }, reason: '想要勾心斗角的推理，一人当剧作家对抗大家' } }));
+// AI (mocked endpoint); pick deliberately has a lower score than pgh
+await p.route('**/api/pick', async r => { await wait(400); await r.fulfill({ json: { pick: 'tl', scores: { pgh: 95, bham: 42, odin: 30, tl: 91 }, reason: '想要勾心斗角的推理，一人当剧作家对抗大家' } }); });
 await p.click('#pBack'); await p.click('.tabs button[data-t="ai"]');
 await p.fill('#pTxt', '想要互相推理、勾心斗角的'); await p.click('#pAsk');
-await p.waitForSelector('.res', { timeout: 10000 }); await wait(1100);
-eq('AI pick revealed', [await p.textContent('.res h3'), await p.textContent('#pScore'), (await p.textContent('.res .why')).includes('剧作家')], ['惨剧轮回', '91', true]);
+eq('AI waiting button', [await p.textContent('#pAsk'), await p.locator('#pAsk').isDisabled()], ['AI 思考中…', true]);
+await p.waitForSelector('.pick-list');
+eq('AI pick first and expanded', [await p.locator('.pick-main .pick-row').first().getAttribute('data-key'), await p.locator('.pick-main .pick-toggle').first().getAttribute('aria-expanded')], ['tl', 'true']);
+eq('AI remaining scores descending', await p.$$eval('.pick-main .pick-score b', l => { const v = l.slice(1).map(x => +x.textContent); return v.every((x, i) => !i || x <= v[i - 1]); }), true);
+eq('AI reason at top', (await p.textContent('.pick-reason')).includes('剧作家'), true);
+eq('AI no blind boxes', await p.locator('.draw').count(), 0);
 await p.screenshot({ path: 'shots/tools_picker_ai.png' });
-await p.click('#pEnter'); await p.waitForURL('https://tl.leisurecat.cloud/', { timeout: 6000 }).catch(() => {});
-eq('enter from picker goes to the helper', p.url(), 'https://tl.leisurecat.cloud/');
-await p.goBack(); await p.waitForSelector('.box', { state: 'attached' }); await wait(600);
+await p.screenshot({ path: '/tmp/claude-501/codex_tasks/shots/ai_mobile.png' });
+await p.click('.pick-row[data-key="pgh"] .pick-toggle');
+eq('only one expanded row', await p.locator('.pick-toggle[aria-expanded="true"]').count(), 1);
+await p.click('#pBack');
+await p.unroute('**/api/pick');
+await p.route('**/api/pick', r => r.fulfill({ status: 503, json: { error: '测试：AI 暂不可用' } }));
+await p.click('#pAsk'); await p.waitForSelector('.err');
+eq('AI error shown', await p.textContent('.err'), '测试：AI 暂不可用');
+await p.click('#pBack');
+eq('AI error back to form', await p.locator('#pAsk').isEnabled(), true);
+await p.click('.sheet .sh-x'); await wait(400);
 
 // order: bag
 await p.click('#orderBtn'); await p.waitForSelector('.tabs');
@@ -82,4 +110,4 @@ await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [p
 eq('new round clears old rings', await p.$$eval('.fring', l => l.length), 1);
 await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
 eq('no page errors', errs, []);
-await b.close(); console.log(fails ? fails + ' FAILED' : 'ALL PASS');
+await b.close(); console.log(fails ? fails + ' FAILED' : 'ALL PASS'); process.exitCode = fails ? 1 : 0;

@@ -1,9 +1,10 @@
-// 帮我选游戏：按条件打推荐指数 / 随便来一个 / 问 AI，结果用“抽盲盒”动画揭晓。
+// 帮我选游戏：按条件打推荐指数 / 随便来一个 / 问 AI，筛选和 AI 显示列表，随机用“抽盲盒”动画揭晓。
 // 游戏库是 games.json；有 url 的游戏有助手，可以直接进入，其他的先看简介。
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const store = { get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
 const wait = ms => new Promise(r => setTimeout(r, ms));
 export const cover = g => g.cover || `img/box-${g.key}.jpg`;
+const span = ([a, b]) => a === b ? `${a}` : `${a}–${b}`;   // 120–120 → 120
 
 const FILTERS = [
   { k: 'n', t: '几个人', opts: [['', '不限'], ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5'], ['6', '6+']] },
@@ -65,8 +66,8 @@ export function open(GAMES, ratings, enterGame) {
     const pane = inner.querySelector('#pPane');
     if (tab === 'filter') {
       pane.innerHTML = FILTERS.map(x => `<div class="grp"><b>${x.t}</b><div class="chips" data-k="${x.k}">${x.opts.map(([v, l]) => `<button data-v="${v}" class="${(f[x.k] || '') === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>`).join('')
-        + `<div class="btn2"><button class="go-btn" id="pGo">开始抽取</button><button class="go-btn ghost" id="pRnd">随便来一个</button></div>
-        <p class="note">按条件给游戏库里 ${GAMES.length} 款游戏打推荐指数，指数最高的从盲盒里揭晓。</p>`;
+        + `<div class="btn2"><button class="go-btn" id="pGo">筛选</button><button class="go-btn ghost" id="pRnd">随便来一个</button></div>
+        <p class="note">按条件给游戏库里 ${GAMES.length} 款游戏打推荐指数，人数合适的按推荐指数排序。</p>`;
       pane.querySelectorAll('.chips').forEach(c => c.onclick = e => {
         const b = e.target.closest('button'); if (!b) return;
         f[c.dataset.k] = b.dataset.v; store.set('pick-f', f);
@@ -86,20 +87,78 @@ export function open(GAMES, ratings, enterGame) {
 
   function pool() { return f.helper === 'yes' ? GAMES.filter(g => g.url) : GAMES; }
 
+  function seats(g) { return !f.n || (+f.n >= 6 ? g.players[1] >= 6 : +f.n >= g.players[0] && +f.n <= g.players[1]); }
+
+  function error(err) {
+    inner.innerHTML = `<div class="err" role="alert">${esc(err.message === 'Failed to fetch' ? '网络连接失败，请稍后再试' : err.message)}</div><div class="btn2"><button class="go-btn ghost" id="pBack">返回</button></div>`;
+    inner.querySelector('#pBack').onclick = form;
+  }
+
+  function list(ranked, excluded = [], reason = '', pick = '') {
+    const summary = FILTERS.filter(x => f[x.k]).map(x => x.k === 'n' ? `${f.n === '6' ? '6+' : f.n} 人` : x.opts.find(([v]) => v === f[x.k])[1]).join(' · ') || '不限条件';
+    const row = ({ g, s, why }) => {
+      const rt = ratings[g.key];
+      return `<article class="pick-row" data-key="${esc(g.key)}">
+        <button class="pick-toggle" aria-expanded="${g.key === pick}" aria-controls="detail-${esc(g.key)}">
+          <img class="pick-cover" src="${esc(cover(g))}" alt="">
+          <span class="pick-info"><strong>${esc(g.zh)}</strong><small>${esc(g.en || '')}</small>
+            <span class="pick-meta">${span(g.players)} 人 · ${span(g.time)} 分钟 · 重度 ${g.weight} · ${esc(g.tags.slice(0, 2).join(' · '))}</span>
+            ${rt?.count ? `<span class="pick-rating">★ ${rt.avg} · ${rt.count} 条</span>` : ''}</span>
+          <span class="pick-score"><b>${s}</b><small>推荐指数</small><i><u style="width:${Math.max(0, Math.min(100, s))}%"></u></i></span>
+          <span class="pick-why">${esc(why.join(' · '))}</span>
+        </button>
+        <div class="pick-detail" id="detail-${esc(g.key)}" ${g.key === pick ? '' : 'hidden'}>
+          <p>${esc(g.intro || '')}</p>
+          ${g.expansions?.length ? `<p class="note">扩展：${g.expansions.map(x => esc(x.zh || x.en)).join('、')}</p>` : ''}
+          <div class="btn2">${g.url ? `<button class="go-btn" data-enter="${esc(g.key)}">进入${esc(g.zh)}助手</button>` : '<button class="go-btn" disabled>这款还没有助手</button>'}</div>
+        </div></article>`;
+    };
+    inner.innerHTML = `<div class="pick-list"><h3>${reason ? 'AI 推荐' : `符合条件的游戏 ${ranked.length} 款`}</h3>
+      ${reason ? `<p class="pick-reason">${esc(reason)}</p>` : `<p class="note">${esc(summary)}</p>`}
+      <div class="pick-main">${ranked.map(row).join('')}</div>
+      ${excluded.length ? `<details class="pick-excluded"><summary>人数不合适的 ${excluded.length} 款</summary>${excluded.map(row).join('')}</details>` : ''}
+      <div class="btn2"><button class="go-btn ghost" id="pBack">改条件</button></div></div>`;
+    sheet.querySelector('.sh-body').scrollTop = 0;
+    inner.querySelectorAll('.pick-toggle').forEach(button => button.onclick = () => {
+      const expand = button.getAttribute('aria-expanded') !== 'true';
+      inner.querySelectorAll('.pick-toggle').forEach(b => {
+        const on = b === button && expand;
+        b.setAttribute('aria-expanded', on);
+        b.nextElementSibling.hidden = !on;
+      });
+    });
+    inner.querySelectorAll('[data-enter]').forEach(b => b.onclick = () => { close(); enterGame(b.dataset.enter); });
+    inner.querySelector('#pBack').onclick = form;
+  }
+
   async function byFilter(random) {
-    const games = pool();
-    const ranked = games.map(g => ({ g, ...(random ? { s: null, why: [] } : score(g, f)) }));
-    if (random) ranked.forEach(r => r.r = Math.random());
-    ranked.sort((a, b) => random ? a.r - b.r : b.s - a.s);
-    await reveal(ranked, Promise.resolve(), random ? '随机抽中' : null);
+    const ranked = pool().map(g => ({ g, ...score(g, f) })).sort((a, b) => b.s - a.s);
+    const eligible = ranked.filter(r => seats(r.g));
+    if (!random) { list(eligible, ranked.filter(r => !seats(r.g))); return; }
+    if (!eligible.length) { error(new Error('没有符合人数条件的游戏，请修改条件')); return; }
+    const shuffled = eligible.map(r => ({ g: r.g, s: null, why: [], r: Math.random() })).sort((a, b) => a.r - b.r);
+    await reveal(shuffled, Promise.resolve(), '随机抽中');
   }
 
   async function byAI(text) {
-    if (!text) return;
+    if (!text || busy) return;
+    busy = true;
     store.set('pick-ai', text);
-    const ask = fetch('/api/pick', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ text }) })
-      .then(async r => { const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || `出错了（${r.status}）`); return j; });
-    await reveal(null, ask, null);
+    const button = inner.querySelector('#pAsk');
+    button.textContent = 'AI 思考中…'; button.disabled = true;
+    inner.querySelector('#pErr').innerHTML = '<p class="note" role="status">正在整理推荐，请稍候…</p>';
+    inner.querySelectorAll('.tabs button').forEach(b => b.disabled = true);
+    try {
+      const r = await fetch('/api/pick', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ text }) });
+      const result = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(result.error || `出错了（${r.status}）`);
+      if (!GAMES.some(g => g.key === result.pick) || !result.scores) throw new Error('AI 返回的推荐无效，请重试');
+      const ranked = GAMES.map(g => ({ g, s: result.scores[g.key] ?? 0, why: [] })).sort((a, b) => b.s - a.s);
+      const top = ranked.findIndex(r => r.g.key === result.pick);
+      ranked.unshift(...ranked.splice(top, 1));
+      list(ranked, [], result.reason, result.pick);
+    } catch (err) { error(err); }
+    finally { busy = false; }
   }
 
   // Blind boxes shuffle until the answer is known (AI may take a few seconds), then the winner pops out and flips over.
@@ -159,7 +218,7 @@ export function open(GAMES, ratings, enterGame) {
       <div class="en2">${esc(g.en || '')}</div><h3>${esc(g.zh)}</h3>
       ${win.s == null ? `<div class="score"><span>${label}</span></div>` : `<div class="score"><b id="pScore">0</b><span>推荐指数</span></div>`}
       ${why ? `<p class="why">${esc(why)}</p>` : ''}
-      <div class="meta"><span>${g.players[0]}–${g.players[1]} 人</span><span>${g.time[0]}–${g.time[1]} 分钟</span><span>重度 ${g.weight}</span>${g.tags.slice(0, 3).map(t => `<span>${esc(t)}</span>`).join('')}${rt?.count ? `<span style="color:#f2c94c">★ ${rt.avg} · ${rt.count} 条评价</span>` : ''}</div>
+      <div class="meta"><span>${span(g.players)} 人</span><span>${span(g.time)} 分钟</span><span>重度 ${g.weight}</span>${g.tags.slice(0, 3).map(t => `<span>${esc(t)}</span>`).join('')}${rt?.count ? `<span style="color:#f2c94c">★ ${rt.avg} · ${rt.count} 条评价</span>` : ''}</div>
       ${g.intro ? `<p class="why" style="margin-top:0">${esc(g.intro)}</p>` : ''}
       ${g.expansions?.length ? `<p class="exps">扩展：${g.expansions.map(x => esc(x.zh || x.en)).join('、')}</p>` : ''}
       <div class="btn2">${g.url ? `<button class="go-btn" id="pEnter">进入${esc(g.zh)}助手</button>` : '<button class="go-btn" disabled>这款还没有助手</button>'}</div>

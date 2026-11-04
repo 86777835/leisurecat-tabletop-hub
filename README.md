@@ -23,14 +23,16 @@
 | 奥丁的盛宴 | https://odin.leisurecat.cloud | [feast-for-odin-helper](https://github.com/86777835/feast-for-odin-helper) |
 | 惨剧轮回 · 剧作家助手 | https://tl.leisurecat.cloud | [tragedy-looper-helper](https://github.com/86777835/tragedy-looper-helper) |
 
+| 血染钟楼 | https://botc.leisurecat.cloud | [blood-on-the-clocktower-helper](https://github.com/86777835/blood-on-the-clocktower-helper) |
+
 ## 功能
 
 - **立体转盘**：各游戏的官方盒封面做成立体盒子，摆在转盘上。左右滑动（电脑上可用方向键或滚轮）转动转盘，轻触正中的盒子，封面放大并虚化，然后进入对应的助手。
 - **帮我选游戏**（右上角）：游戏库共 26 款，数据来自 BGG，有助手的可以直接进入。
   - 按条件选：选人数、时长、难度、类型，每款游戏得到一个 0–99 的推荐指数。
   - 随便来一个：随机抽一款。
-  - 问 AI：用一句话描述这局的情况，AI 推荐一款。
-  - 结果用“抽盲盒”动画揭晓：盲盒洗牌后弹出一个，翻面露出盒封面，同时显示推荐指数、理由和其他游戏的排名。
+  - 问 AI：用一句话描述这局的情况，AI 按推荐指数展示列表，首选默认展开。
+  - 按条件直接展示列表，人数和助手范围为硬条件，其余条件影响推荐指数；只有随机使用抽盲盒动画。
 - **定先后手**（左上角）：任何桌游都能用。
   - 手指轮盘：每人一根手指按住屏幕，人齐后按住 1.5 秒，光圈轮转，最后显示 1、2、3…
   - 随机排序：填好名字，像从袋子里摸棋子一样，一个个抽出顺序。

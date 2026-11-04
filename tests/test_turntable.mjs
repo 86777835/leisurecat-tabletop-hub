@@ -9,6 +9,8 @@ for (const [n, o] of [['m', { viewport: { width: 390, height: 844 }, deviceScale
   await p.route('https://*.leisurecat.cloud/**', r => r.request().isNavigationRequest() && !r.request().url().startsWith(base) ? r.fulfill({ body: '<title>game</title>arrived', contentType: 'text/html' }) : r.continue());
   await p.goto(base); await p.waitForLoadState('networkidle'); await p.waitForTimeout(700);
   const title = () => p.textContent('#zh');
+  eq(n + ' five boxes', await p.locator('.box').count(), 5);
+  await p.screenshot({ path: `/tmp/claude-501/codex_tasks/shots/turntable_${n}.png` });
   eq(n + ' starts on first game', await title(), '工业革命：匹兹堡');
   await p.screenshot({ path: `shots/hub3_${n}_0.png` });
   // swipe left by one card
@@ -26,8 +28,10 @@ for (const [n, o] of [['m', { viewport: { width: 390, height: 844 }, deviceScale
   await p.mouse.click(right[0], right[1]); await p.waitForTimeout(1300);
   eq(n + ' tap side cover → it turns to front', await title(), '奥丁的盛宴');
   await p.screenshot({ path: `shots/hub3_${n}_odin.png` });
-  // wrap around: two more steps right lands on 匹兹堡
-  for (let k = 0; k < 2; k++) { await p.evaluate(() => document.getElementById('next').click()); await p.waitForTimeout(900); }
+  // wrap around: 惨剧轮回 → 血染钟楼 → 匹兹堡
+  for (let k = 0; k < 3; k++) { await p.evaluate(() => document.getElementById('next').click()); await p.waitForTimeout(900);
+    if (k === 1) { eq(n + ' fifth game is botc', await title(), '血染钟楼'); await p.screenshot({ path: `/tmp/claude-501/codex_tasks/shots/turntable_${n}_botc.png` }); }
+  }
   eq(n + ' wraps around', await title(), '工业革命：匹兹堡');
   // tap the front cover → zoom then navigate
   const front = await p.$$eval('.box', cs => { const c = cs.find(c => c.tabIndex === 0).querySelector('.front'); const r = c.getBoundingClientRect(); return [r.x + r.width / 2, r.y + r.height / 2]; });
@@ -40,4 +44,4 @@ for (const [n, o] of [['m', { viewport: { width: 390, height: 844 }, deviceScale
   eq(n + ' no page errors', errs, []);
   await ctx.close();
 }
-await b.close(); console.log(fails ? fails + ' FAILED' : 'ALL PASS');
+await b.close(); console.log(fails ? fails + ' FAILED' : 'ALL PASS'); process.exitCode = fails ? 1 : 0;
