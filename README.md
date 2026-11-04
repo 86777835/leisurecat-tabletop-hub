@@ -63,6 +63,8 @@ GET  /api/reviews                                           → { pgh: { avg, co
 
 ## 本地开发与部署
 
+图片缓存 7 天，部署时若替换同名图片，用户最多需要等待 7 天才能看到新图。
+
 ```bash
 wrangler dev --port 8811     # 本地运行
 wrangler deploy              # 部署
