@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--serif:"Noto Serif SC","Songti SC",serif;--brass:#e0c27a;--ink:#1b2230}
+body{width:1240px;height:1860px;overflow:hidden;position:relative;background:#120d08 url(bg.png) center/cover no-repeat;font-family:var(--serif);color:#f6ecd6}
+/* darken where text sits */
+.shade{position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(8,6,4,.15) 0%,rgba(8,6,4,0) 22%,rgba(8,6,4,.42) 38%,rgba(8,6,4,.3) 47%,rgba(8,6,4,0) 52%,rgba(8,6,4,.1) 66%,rgba(8,6,4,.72) 86%,rgba(8,6,4,.88) 100%)}
+.head{position:absolute;top:505px;left:0;right:0;text-align:center}
+.head .en{font:500 30px "Cinzel",var(--serif);letter-spacing:16px;color:var(--brass);text-shadow:0 2px 10px rgba(0,0,0,.7)}
+.head h1{margin-top:18px;font:900 132px/1 var(--serif);letter-spacing:18px;text-indent:18px;text-shadow:0 6px 24px rgba(0,0,0,.75),0 2px 0 rgba(0,0,0,.5)}
+.head .rule{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:26px;font:600 32px var(--serif);letter-spacing:5px;color:#f0dfb6;text-shadow:0 2px 10px rgba(0,0,0,.8)}
+.head .rule i{width:75px;height:2px;background:linear-gradient(90deg,transparent,var(--brass))}
+.head .rule i:last-child{transform:scaleX(-1)}
+
+/* Official cover images; dimensions and selection come from games.json. */
+.boxes{position:absolute;left:0;right:0;top:785px;height:500px;perspective:1800px;perspective-origin:50% -600px}
+.box{position:absolute;left:50%;top:0;transform-style:preserve-3d}
+.f{position:absolute;background:center/100% 100% no-repeat}
+.front{width:var(--w);height:var(--h);left:calc(var(--w) / -2);top:calc(var(--h) * -1);transform:translateZ(calc(var(--d) / 2));border-radius:3px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.front::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.18),transparent 35%)}
+.side{width:var(--d);height:var(--h);left:calc(var(--d) / -2);top:calc(var(--h) * -1);background-size:4000% 100%;filter:brightness(.5)}
+.r{transform:rotateY(90deg) translateZ(calc(var(--w) / 2));background-position:right center}
+.l{transform:rotateY(-90deg) translateZ(calc(var(--w) / 2));background-position:left center}
+.top{width:var(--w);height:var(--d);left:calc(var(--w) / -2);top:calc(var(--d) / -2);transform:translateY(calc(var(--h) * -1)) rotateX(90deg);background-size:100% 4000%;background-position:center top;filter:brightness(.85)}
+.sh{position:absolute;width:calc(var(--w) * 1.3);height:calc(var(--d) * 2.6);left:calc(var(--w) * -.65);top:calc(var(--d) * -1.3);transform:rotateX(90deg);background:radial-gradient(ellipse,rgba(0,0,0,.8),transparent 70%)}
+
+.qrcard{position:absolute;left:50%;top:1330px;width:352px;margin-left:-176px;padding:12px;border-radius:26px;background:linear-gradient(#f6ecd6,#e9dab8);
+  box-shadow:0 20px 50px rgba(0,0,0,.65),0 0 0 3px rgba(224,194,122,.7)}
+.qrcard img{display:block;width:100%;image-rendering:pixelated}
+.logo{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:18px;background:#fff;padding:7px}
+.logo svg{display:block;width:100%;height:100%}
+.foot{position:absolute;left:0;right:0;top:1720px;text-align:center}
+.foot b{display:block;font:900 42px var(--serif);letter-spacing:8px;text-shadow:0 2px 12px rgba(0,0,0,.8)}
+.foot span{display:block;margin-top:10px;font:600 26px var(--serif);letter-spacing:4px;color:#e9d7ad;opacity:.9}
+</style></head>
+<body>
+<div class="shade"></div>
+<div class="head">
+  <div class="en">LEISURECAT · TABLETOP</div>
+  <h1>桌游小助手</h1>
+  <div class="rule"><i></i>线下开局 · 计分 · 规则问答<i></i></div>
+</div>
+
+<div class="boxes" id="boxes"></div>
+
+<div class="qrcard"><img src="qr_v2.png" alt=""><div class="logo"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#1b2230"/><rect x="14" y="14" width="36" height="36" rx="7" fill="#e0c27a"/><g fill="#1b2230"><circle cx="24" cy="24" r="4"/><circle cx="40" cy="24" r="4"/><circle cx="32" cy="32" r="4"/><circle cx="24" cy="40" r="4"/><circle cx="40" cy="40" r="4"/></g></svg></div></div>
+
+<div class="foot">
+  <b>扫码打开，直接开始用</b>
+  <span>持续更新更多桌游</span>
+</div>
+
+<script>
+// Serve the repository root over HTTP before exporting. Keep at most 12 boxes;
+// new linked games enter automatically until that limit. Uniform cm-to-px scale
+// fits both row width and height, preserving each box's actual w:h:d proportions.
+window.posterReady = (async () => {
+  const response = await fetch('../../public/games.json');
+  if (!response.ok) throw new Error(`games.json: HTTP ${response.status}`);
+  const games = (await response.json()).filter(game => game.url).slice(0, 12);
+  if (!games.length) throw new Error('No linked games to display');
+  const rowCount = games.length > 4 ? 2 : 1;
+  const split = Math.ceil(games.length / rowCount);
+  const rows = [games.slice(0, split), games.slice(split)].filter(row => row.length);
+  for (const game of games) {
+    if (!Array.isArray(game.box) || game.box.length !== 3 || game.box.some(n => !(n > 0)))
+      throw new Error(`Invalid box dimensions: ${game.key}`);
+    const img = new Image();
+    img.src = `../../public/img/box-${game.key}.jpg`;
+    await img.decode();
+  }
+  const unit = Math.min(7.2, 245 / Math.max(...games.map(g => g.box[1])),
+    ...rows.map(row => (1020 - (row.length - 1) * 28) / row.reduce((s,g) => s + g.box[0] + g.box[2] * .2, 0)));
+  rows.forEach((row, ri) => {
+    const widths = row.map(g => (g.box[0] + g.box[2] * .2) * unit);
+    const gap = 34;
+    const total = widths.reduce((a,b) => a+b,0) + gap * (row.length - 1);
+    let cursor = -total / 2;
+    row.forEach((game, i) => {
+      const x = cursor + widths[i] / 2;
+      cursor += widths[i] + gap;
+      const angle = -x / 25;
+      const y = (rowCount === 1 ? 345 : 245 + ri * 235) - Math.abs(x) * .055;
+      const box = document.createElement('div');
+      box.className = 'box'; box.dataset.key = game.key;
+      const [w,h,d] = game.box.map(n => n * unit);
+      box.style.cssText = `--w:${w}px;--h:${h}px;--d:${d}px;transform:translate3d(${x}px,${y}px,0) rotateY(${angle}deg)`;
+      box.innerHTML = '<div class="sh"></div>';
+      for (const face of ['side r','side l','top','front']) {
+        const el = document.createElement('div'); el.className = `f ${face}`;
+        el.style.backgroundImage = `url("../../public/img/box-${game.key}.jpg")`;
+        box.appendChild(el);
+      }
+      document.getElementById('boxes').appendChild(box);
+    });
+  });
+  await document.fonts.ready;
+  await Promise.all([...document.images].map(img => img.decode()));
+  return { boxes: games.length, unit };
+})();
+</script>
+</body></html>
