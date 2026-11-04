@@ -22,8 +22,8 @@
 | 工业革命：伯明翰 | https://bham.leisurecat.cloud | [brass-birmingham-helper](https://github.com/86777835/brass-birmingham-helper) |
 | 奥丁的盛宴 | https://odin.leisurecat.cloud | [feast-for-odin-helper](https://github.com/86777835/feast-for-odin-helper) |
 | 惨剧轮回 · 剧作家助手 | https://tl.leisurecat.cloud | [tragedy-looper-helper](https://github.com/86777835/tragedy-looper-helper) |
-
 | 血染钟楼 | https://botc.leisurecat.cloud | [blood-on-the-clocktower-helper](https://github.com/86777835/blood-on-the-clocktower-helper) |
+| 阿纳克遗迹 | https://arnak.leisurecat.cloud | [lost-ruins-of-arnak-helper](https://github.com/86777835/lost-ruins-of-arnak-helper) |
 
 ## 功能
 
