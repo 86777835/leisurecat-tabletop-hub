@@ -100,7 +100,7 @@ body.going .pill{opacity:0}
 .fring{position:absolute;left:0;top:0;width:120px;height:120px;margin:-60px;border-radius:50%;pointer-events:none;
   border:6px solid var(--c);box-shadow:0 0 24px var(--c),inset 0 0 18px var(--c);animation:ringIn .3s ease-out;transition:transform .25s,opacity .3s}
 .fring::before{content:"";position:absolute;inset:-18px;border-radius:50%;border:2px solid var(--c);opacity:.5;animation:pulse 1.2s ease-out infinite}
-.fring svg{position:absolute;inset:-12px;width:144px;height:144px;transform:rotate(-90deg)}
+.fring svg{position:absolute;left:50%;top:50%;width:144px;height:144px;transform:translate(-50%,-50%) rotate(-90deg)}
 .fring circle{fill:none;stroke:var(--c);stroke-width:4;stroke-linecap:round;stroke-dasharray:420;stroke-dashoffset:calc(420 - 420 * var(--p,0))}
 .fring.hl{transform:scale(1.18)}
 .fring.lose{opacity:.75}

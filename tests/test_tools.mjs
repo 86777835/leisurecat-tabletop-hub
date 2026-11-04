@@ -93,16 +93,50 @@ await p.screenshot({ path: 'shots/tools_bag.png' });
 await p.click('.tabs button[data-t="finger"]'); await p.click('#oN button[data-n="3"]'); await p.click('#oStart'); await p.waitForSelector('.fz');
 const cdp = await ctx.newCDPSession(p);
 const pts = [{ x: 90, y: 300, id: 1 }, { x: 290, y: 330, id: 2 }, { x: 190, y: 600, id: 3 }];
+// Reconstruct the pseudo-element border-box centre, including pulse and parent scale.
+const checkRingCentres = async state => {
+  const metrics = await p.$$eval('.fring', (rings, points) => rings.map((el, i) => {
+    const centre = r => ({ x: r.x + r.width / 2, y: r.y + r.height / 2 });
+    const r = el.getBoundingClientRect(), main = centre(r);
+    const circle = centre(el.querySelector('circle').getBoundingClientRect());
+    const style = getComputedStyle(el), before = getComputedStyle(el, '::before');
+    const px = v => parseFloat(v);
+    const w = px(before.width) + (before.boxSizing === 'border-box' ? 0 : px(before.paddingLeft) + px(before.paddingRight) + px(before.borderLeftWidth) + px(before.borderRightWidth));
+    const h = px(before.height) + (before.boxSizing === 'border-box' ? 0 : px(before.paddingTop) + px(before.paddingBottom) + px(before.borderTopWidth) + px(before.borderBottomWidth));
+    const [ox, oy] = before.transformOrigin.split(' ').map(px);
+    const m = new DOMMatrix(before.transform === 'none' ? undefined : before.transform);
+    const local = new DOMPoint(w / 2 - ox, h / 2 - oy).matrixTransform(m);
+    const halo = {
+      x: r.x + (px(style.borderLeftWidth) + px(before.left) + ox + local.x) * r.width / el.offsetWidth,
+      y: r.y + (px(style.borderTopWidth) + px(before.top) + oy + local.y) * r.height / el.offsetHeight
+    };
+    const centres = [main, circle, halo];
+    const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+    return { classes: el.className, pair: Math.max(distance(main, circle), distance(main, halo), distance(circle, halo)), finger: Math.max(...centres.map(c => distance(c, points[i]))) };
+  }), pts);
+  console.log('RING CENTRES', state, JSON.stringify(metrics));
+  eq(`${state}: three rings measured`, metrics.length, 3);
+  eq(`${state}: all circle centres within 1px`, metrics.every(m => m.pair <= 1 && m.finger <= 1), true);
+};
 await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: pts.slice(0, 2) });
 await wait(300);
 eq('2 of 3 fingers', [await p.$$eval('.fring', l => l.length), (await p.textContent('.fz-msg')).includes('2 / 3')], [2, true]);
 await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: pts });
-await wait(800); await p.screenshot({ path: 'shots/tools_finger_hold.png' });
-await wait(1300); await p.screenshot({ path: 'shots/tools_finger_spin.png' });
+await wait(800);
+await checkRingCentres('hold');
+eq('hold progress is partial', await p.$$eval('.fring', rings => rings.every(el => { const v = +el.style.getPropertyValue('--p'); return v > 0 && v < 1; })), true);
+await p.screenshot({ path: 'shots/tools_finger_hold.png' });
+await p.screenshot({ path: '/tmp/claude-501/codex_tasks/shots/fring_hold.png' });
+await p.screenshot({ path: '/tmp/claude-501/codex_tasks/shots/fring_zoom.png', clip: { x: pts[2].x - 100, y: pts[2].y - 100, width: 200, height: 200 } });
+await p.waitForSelector('.fring.hl');
+await checkRingCentres('highlight');
+await p.screenshot({ path: 'shots/tools_finger_spin.png' });
 await wait(2600);
 eq('every finger got a number', await p.$$eval('.fring .num.on', l => l.map(x => x.textContent).sort()), ['1', '2', '3']);
 eq('one first player', await p.$$eval('.fring.first', l => l.length), 1);
+await checkRingCentres('done');
 await p.screenshot({ path: 'shots/tools_finger_done.png' });
+await p.screenshot({ path: '/tmp/claude-501/codex_tasks/shots/fring_done.png' });
 await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
 await wait(700);
 eq('result stays after lifting', await p.$$eval('.fring .num.on', l => l.length), 3);
