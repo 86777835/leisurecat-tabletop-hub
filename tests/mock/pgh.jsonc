@@ -1,0 +1,8 @@
+{
+  "name": "brass-pittsburgh-room",
+  "main": "worker.js",
+  "compatibility_date": "2026-05-28",
+  "vars": {
+    "GAME": "pgh"
+  }
+}

@@ -3,6 +3,40 @@
   "main": "src/worker.js",
   "compatibility_date": "2026-05-28",
   "assets": { "directory": "./public", "run_worker_first": ["/api/*"] },
+  "services": [
+  {
+    "binding": "ASK_PGH",
+    "service": "brass-pittsburgh-room"
+  },
+  {
+    "binding": "ASK_BHAM",
+    "service": "brass-birmingham-room"
+  },
+  {
+    "binding": "ASK_ODIN",
+    "service": "feast-for-odin-room"
+  },
+  {
+    "binding": "ASK_TL",
+    "service": "tragedy-looper-helper"
+  },
+  {
+    "binding": "ASK_ARNAK",
+    "service": "lost-ruins-of-arnak-room"
+  },
+  {
+    "binding": "ASK_BOTC",
+    "service": "botc-helper"
+  },
+  {
+    "binding": "ASK_AVALON",
+    "service": "avalon-helper"
+  },
+  {
+    "binding": "ASK_DUNE",
+    "service": "dune-imperium-helper"
+  }
+],
   "ai": { "binding": "AI" },
   "ratelimits": [
     { "name": "PICK_LIMIT", "namespace_id": "1051", "simple": { "limit": 8, "period": 60 } },

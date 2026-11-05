@@ -99,6 +99,7 @@ body{font-family:var(--sans);color:var(--text);user-select:none;-webkit-user-sel
 body.going .stage,body.going .cap,body.going .brand,body.going .nav,body.going .legal{opacity:0;transition:opacity .35s}
 </style>
 <link rel="stylesheet" href="tools.css">
+<link rel="stylesheet" href="ask.css">
 </head>
 <body>
 <!-- WeChat's in-app share takes the first image on the page as the thumbnail; it skips display:none, so hide it the way the 匹兹堡 site does -->
@@ -122,6 +123,7 @@ body.going .stage,body.going .cap,body.going .brand,body.going .nav,body.going .
 
 <script type="module">
 // Box sizes are the real boxes' proportions in cm (width × height × depth), so they stand on the turntable at true scale.
+import { initAsk } from './ask.js';
 import { open as openReviews } from './reviews.js';
 // games.json is the game library shared with the picker and the AI endpoint; the turntable shows the games that have a helper site
 const ALL = await fetch('games.json').then(r => r.json());
@@ -264,7 +266,7 @@ stage.addEventListener('wheel', e => {
 $('prev').onclick = () => step(-1);
 $('next').onclick = () => step(1);
 addEventListener('keydown', e => {
-  if (document.querySelector('.sheet,.fz')) return;   // a tool panel is open
+  if (document.querySelector('.sheet,.fz,.cpanel:not([hidden])')) return;   // a tool panel is open
   if (e.key === 'ArrowLeft') step(-1);
   else if (e.key === 'ArrowRight') step(1);
   else if (e.key === 'Enter' && !e.target.closest('.nav')) { e.preventDefault(); enter(idx(target)); }
@@ -293,6 +295,7 @@ addEventListener('pageshow', e => {
 
 addEventListener('resize', size);
 size();
+initAsk(ALL, () => GAMES[active].key);
 </script>
 </body>
 </html>

@@ -11,10 +11,43 @@ export default {
   async fetch(req, env) {
     const url = new URL(req.url);
     if (url.pathname.startsWith('/api/reviews')) return reviews(req, env, url);
+    if (url.pathname === '/api/ask' && req.method === 'POST') return ask(req, env);
     if (url.pathname === '/api/pick' && req.method === 'POST') return pick(req, env);
     return new Response('Not found', { status: 404 });
   }
 };
+
+// Only service bindings: this endpoint never calls a model or public site.
+const ASK_BINDINGS = {
+  pgh: 'ASK_PGH', bham: 'ASK_BHAM', odin: 'ASK_ODIN', tl: 'ASK_TL',
+  arnak: 'ASK_ARNAK', botc: 'ASK_BOTC', avalon: 'ASK_AVALON',
+  'dune-imperium': 'ASK_DUNE', 'dune-uprising': 'ASK_DUNE'
+};
+async function ask(req, env) {
+  let body;
+  try { body = await req.json(); } catch { return Response.json({ error: '请求必须是 JSON 格式' }, { status: 400 }); }
+  const game = GAMES.find(g => g.key === body?.game && g.url);
+  if (!game) return Response.json({ error: '这款游戏没有已收录的规则助手，请选择有助手的游戏' }, { status: 400 });
+  let messages = body.messages;
+  if (game.key.startsWith('dune-')) {
+    if (!Array.isArray(messages) || !messages.length || messages.at(-1)?.role !== 'user' || typeof messages.at(-1).content !== 'string')
+      return Response.json({ error: '问题格式不对，最后一条必须是用户问题' }, { status: 400 });
+    const version = game.key === 'dune-imperium' ? '基础版' : '起义';
+    messages = messages.map((m, i) => i === messages.length - 1 ? { ...m, content: `（版本：${version}）${m.content}` } : m);
+  }
+  const service = env[ASK_BINDINGS[game.key]];
+  if (!service) return Response.json({ error: '规则助手服务尚未连接，请稍后再试' }, { status: 503 });
+  const headers = new Headers({ 'content-type': 'application/json' });
+  const ip = req.headers.get('cf-connecting-ip');
+  if (ip) headers.set('cf-connecting-ip', ip);
+  try {
+    return await service.fetch(new Request('https://rules.internal/api/chat', {
+      method: 'POST', headers, body: JSON.stringify({ messages }), signal: req.signal
+    }));
+  } catch {
+    return Response.json({ error: '规则助手连接失败，请稍后再试' }, { status: 503 });
+  }
+}
 
 // ---------- reviews ----------
 // Any of our sites may post and read, so answer CORS for *.leisurecat.cloud.
