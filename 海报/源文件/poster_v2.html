@@ -72,7 +72,8 @@ window.posterReady = (async () => {
     img.src = `../../public/img/box-${game.key}.jpg`;
     await img.decode();
   }
-  const unit = Math.min(7.2, 245 / Math.max(...games.map(g => g.box[1])),
+  // two rows sit 235px apart: cap the tallest box below that so its top face clears the row above
+  const unit = Math.min(7.2, (rowCount === 1 ? 245 : 220) / Math.max(...games.map(g => g.box[1])),
     ...rows.map(row => (1020 - (row.length - 1) * 28) / row.reduce((s,g) => s + g.box[0] + g.box[2] * .2, 0)));
   rows.forEach((row, ri) => {
     const widths = row.map(g => (g.box[0] + g.box[2] * .2) * unit);
