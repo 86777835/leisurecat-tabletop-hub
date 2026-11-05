@@ -168,6 +168,7 @@
  },
  {
   "key": "dune-imperium",
+  "url": "https://dune.leisurecat.cloud/?v=base",
   "zh": "沙丘：帝国",
   "en": "DUNE: IMPERIUM",
   "cover": "img/games/dune-imperium.jpg",
@@ -194,12 +195,12 @@
   "expansions": [
    {
     "en": "Dune: Imperium – Rise of Ix",
-    "zh": "沙丘：帝国 伊克斯崛起（暂译）",
+    "zh": "沙丘：帝国 伊克斯崛起",
     "note": "新增三个家族领袖、伊克斯科技板块、无畏舰和渗透者，还有史诗模式。"
    },
    {
     "en": "Dune: Imperium – Immortality",
-    "zh": "沙丘：帝国 不朽（暂译）",
+    "zh": "沙丘：帝国 不朽之躯",
     "note": "加入特莱拉克斯基因研究轨道，以及嫁接卡牌、面舞者等新机制。"
    },
    {
@@ -215,6 +216,7 @@
  },
  {
   "key": "dune-uprising",
+  "url": "https://dune.leisurecat.cloud/?v=uprising",
   "zh": "沙丘：帝国 起义",
   "en": "DUNE: IMPERIUM – UPRISING",
   "cover": "img/games/dune-uprising.jpg",

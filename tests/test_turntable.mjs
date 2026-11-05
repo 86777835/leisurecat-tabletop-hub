@@ -9,7 +9,8 @@ for (const [n, o] of [['m', { viewport: { width: 390, height: 844 }, deviceScale
   await p.route('https://*.leisurecat.cloud/**', r => r.request().isNavigationRequest() && !r.request().url().startsWith(base) ? r.fulfill({ body: '<title>game</title>arrived', contentType: 'text/html' }) : r.continue());
   await p.goto(base); await p.waitForLoadState('networkidle'); await p.waitForTimeout(700);
   const title = () => p.textContent('#zh');
-  eq(n + ' seven boxes', await p.locator('.box').count(), 7);
+  const games = await p.evaluate(async () => (await (await fetch('games.json')).json()).filter(g => g.url));
+  eq(n + ' one box per helper site', await p.locator('.box').count(), games.length);
   await p.screenshot({ path: `/tmp/claude-501/codex_tasks/shots/turntable_${n}.png` });
   eq(n + ' starts on first game', await title(), '工业革命：匹兹堡');
   await p.screenshot({ path: `shots/hub3_${n}_0.png` });
@@ -28,15 +29,12 @@ for (const [n, o] of [['m', { viewport: { width: 390, height: 844 }, deviceScale
   await p.mouse.click(right[0], right[1]); await p.waitForTimeout(1300);
   eq(n + ' tap side cover → it turns to front', await title(), '奥丁的盛宴');
   await p.screenshot({ path: `shots/hub3_${n}_odin.png` });
-  // wrap around: 惨剧轮回 → 阿纳克遗迹 → 血染钟楼 → 阿瓦隆 → 匹兹堡
-  for (let k = 0; k < 5; k++) { await p.evaluate(() => document.getElementById('next').click()); await p.waitForTimeout(900);
-    if (k === 1) eq(n + ' fifth game is arnak', await title(), '阿纳克遗迹');
-    if (k === 3) eq(n + ' seventh game is avalon', await title(), '阿瓦隆');
-    if (k === 2) { eq(n + ' sixth game is botc', await title(), '血染钟楼'); await p.screenshot({ path: `/tmp/claude-501/codex_tasks/shots/turntable_${n}_botc.png` }); }
+  // wrap around: from the third game, step through the rest in games.json order back to the first
+  for (let k = 3; k <= games.length; k++) { await p.evaluate(() => document.getElementById('next').click()); await p.waitForTimeout(900);
+    if (k < games.length) eq(`${n} game ${k + 1} is ${games[k].key}`, await title(), games[k].zh);
   }
   eq(n + ' wraps around', await title(), '工业革命：匹兹堡');
   // Measure every centred game after settling, including the cyclic first/last neighbours.
-  const games = await p.evaluate(async () => (await (await fetch('games.json')).json()).filter(g => g.url));
   for (const [i, game] of games.entries()) {
     await p.waitForTimeout(1200);
     eq(`${n} ${game.key} centred`, await title(), game.zh);
