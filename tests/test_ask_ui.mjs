@@ -1,6 +1,8 @@
+import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright-core';
+const LINKED = JSON.parse(readFileSync(new URL('../public/games.json', import.meta.url))).filter(g => g.url).length;
 const base = 'http://localhost:8811/';
 const shots = '/tmp/claude-501/codex_tasks/shots/';
 await mkdir(shots,{recursive:true});
@@ -22,7 +24,7 @@ for(const width of (process.argv[2] ? [Number(process.argv[2])] : [390,320])) {
  const ask=async q=>{await page.fill('.cin textarea',q);await page.click('.cin button');};
  const done=async()=>{await page.waitForFunction(()=>!document.querySelector('.cin button').disabled);};
  await ask('怎么计分');
- assert.equal(await page.locator('.cchoices button').count(),9);
+ assert.equal(await page.locator('.cchoices button').count(),LINKED);
  assert.equal(await page.locator('.cchoices [aria-pressed=true]').getAttribute('data-game'),'pgh');
  await ask('工业革命运河时代怎么结束');
  assert.deepEqual(await page.locator('.cchoices button').evaluateAll(es=>es.map(e=>e.dataset.game)),['pgh','bham']);
@@ -39,7 +41,7 @@ for(const width of (process.argv[2] ? [Number(process.argv[2])] : [390,320])) {
  await ask('沙虫怎么用');await done();assert.match(await page.locator('.cm.a a').last().getAttribute('href'),/v=uprising/);
  await ask('匹兹堡 mockreset'); await done();assert.ok(!(await page.locator('.canswer').last().textContent()).includes('这段旧回答必须消失'));assert.ok(!(await page.locator('.clog').textContent()).includes('mock-model-hidden'));
  for(const [q,match] of [['mock429',/429/],['mock503',/503/],['mockerror',/模拟流内错误/],['mockdrop',/网络连接中断/]]) {await ask(q);await done();assert.match(await page.locator('.canswer').last().textContent(),match);}
- const before=requests.length;await ask('方舟动物园怎么玩');assert.equal(requests.length,before);assert.equal(await page.locator('.cm').last().textContent(),'这款还没有收录规则资料');
+ const before=requests.length;await ask('展翅翱翔怎么玩');assert.equal(requests.length,before);assert.equal(await page.locator('.cm').last().textContent(),'这款还没有收录规则资料');
  await page.screenshot({path:shots+`ask_unavailable_${width}.png`});
  await page.route('**/api/ask',r=>r.abort('internetdisconnected'));await ask('匹兹堡断网');await done();assert.match(await page.locator('.canswer').last().textContent(),/网络连接失败/);await page.unroute('**/api/ask');
  if(width===390){await ask('匹兹堡 mocktimeout');await page.waitForFunction(()=>!document.querySelector('.cin button').disabled,{},{timeout:35000});assert.match(await page.locator('.canswer').last().textContent(),/30 秒/);}

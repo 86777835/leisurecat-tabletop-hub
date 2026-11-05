@@ -8,7 +8,8 @@ export const ALIASES = {
   botc: ['血染', 'clocktower', '说书人', '魔典', '幽灵票', '暗流涌动'],
   avalon: ['阿瓦隆', 'avalon', '梅林', '派西维尔', '湖中仙女'],
   'dune-imperium': ['沙丘基础版', '沙丘帝国基础版', 'dune base'],
-  'dune-uprising': ['起义', 'uprising', '沙虫']
+  'dune-uprising': ['起义', 'uprising', '沙虫'],
+  'ark-nova': ['方舟', 'ark nova', '魅力', '保护点数', '保护项目', '海洋世界', '饲养区']
 };
 const normalize = s => s.toLowerCase().replace(/[：:·–—()（）]/g, ' ').replace(/\s+/g, ' ').trim();
 function contains(text, term) {

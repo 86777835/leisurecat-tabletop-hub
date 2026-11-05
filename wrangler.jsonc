@@ -35,6 +35,10 @@
   {
     "binding": "ASK_DUNE",
     "service": "dune-imperium-helper"
+  },
+  {
+    "binding": "ASK_ARK",
+    "service": "ark-nova-helper"
   }
 ],
   "ai": { "binding": "AI" },

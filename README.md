@@ -124,7 +124,8 @@ wrangler dev --local --port 8811 \
   -c tests/mock/pgh.jsonc -c tests/mock/bham.jsonc \
   -c tests/mock/odin.jsonc -c tests/mock/tl.jsonc \
   -c tests/mock/arnak.jsonc -c tests/mock/botc.jsonc \
-  -c tests/mock/avalon.jsonc -c tests/mock/dune.jsonc
+  -c tests/mock/avalon.jsonc -c tests/mock/dune.jsonc \
+  -c tests/mock/ark.jsonc
 ```
 
 另一终端运行：

@@ -21,7 +21,7 @@ export default {
 const ASK_BINDINGS = {
   pgh: 'ASK_PGH', bham: 'ASK_BHAM', odin: 'ASK_ODIN', tl: 'ASK_TL',
   arnak: 'ASK_ARNAK', botc: 'ASK_BOTC', avalon: 'ASK_AVALON',
-  'dune-imperium': 'ASK_DUNE', 'dune-uprising': 'ASK_DUNE'
+  'dune-imperium': 'ASK_DUNE', 'dune-uprising': 'ASK_DUNE', 'ark-nova': 'ASK_ARK'
 };
 async function ask(req, env) {
   let body;
