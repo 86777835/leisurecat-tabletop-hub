@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 const base = 'http://localhost:8811';
 const post = body => fetch(base + '/api/ask', {method:'POST', headers:{'content-type':'application/json','cf-connecting-ip':'203.0.113.19'},body:JSON.stringify(body)});
 for (const game of ['bad', 'wingspan', '__proto__', null]) { const r = await post({game}); assert.equal(r.status,400); assert.match((await r.json()).error,/规则助手/); }
-for (const game of ['pgh','bham','odin','tl','arnak','botc','avalon','dune-imperium','dune-uprising','ark-nova','sakura-arms']) {
+for (const game of ['pgh','bham','odin','tl','arnak','botc','avalon','dune-imperium','dune-uprising','ark-nova','sakura-arms','castles-of-burgundy']) {
  const messages = [{role:'user',content:'之前的问题'},{role:'assistant',content:'之前的回答'},{role:'user',content:'现在的问题',extra:'preserved'}];
  const r = await post({game,messages}); assert.equal(r.status,200);
  const raw = await r.text(); const data = JSON.parse(JSON.parse(raw.split('\n')[0].slice(6)).choices[0].delta.content);

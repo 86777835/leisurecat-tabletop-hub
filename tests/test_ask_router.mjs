@@ -8,7 +8,8 @@ const samples = {
  botc: ['血染', '说书人', '魔典'], avalon: ['阿瓦隆', '梅林', '派西维尔'],
  'dune-imperium': ['沙丘基础版', '沙丘帝国原版', 'Dune base'], 'dune-uprising': ['起义', '沙虫', 'Dune Uprising'],
  'ark-nova': ['方舟动物园怎么开局', '保护点数怎么换算', '海洋世界换哪些牌'],
- 'sakura-arms': ['散樱乱武怎么组牌', '眼前构筑可以全选一位女神吗', '畏缩是什么']
+ 'sakura-arms': ['散樱乱武怎么组牌', '眼前构筑可以全选一位女神吗', '畏缩是什么'],
+ 'castles-of-burgundy': ['勃艮第城堡 3 人局怎么摆', '补给区每阶段补几块', '26 号修道院几分']
 };
 for (const [key, qs] of Object.entries(samples)) for (const q of qs) assert.deepEqual(matchGames(q, games), [key], q);
 for (const q of ['工业革命运河时代怎么结束', '工业革命', '运河']) assert.deepEqual(matchGames(q, games), ['pgh', 'bham']);

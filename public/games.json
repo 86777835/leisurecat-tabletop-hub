@@ -1011,6 +1011,42 @@
   ]
  },
  {
+  "key": "castles-of-burgundy",
+  "url": "https://burgundy.leisurecat.cloud",
+  "zh": "勃艮第城堡",
+  "en": "THE CASTLES OF BURGUNDY",
+  "cover": "img/games/castles-of-burgundy.jpg",
+  "box": [
+   27.0,
+   37.0,
+   16.4
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   70,
+   120
+  ],
+  "weight": 2.8,
+  "tags": [
+   "德式",
+   "拼图"
+  ],
+  "intro": "十五世纪的勃艮第公爵，用骰子挑选六角片，建起城堡、牧场、城镇和修道院，把自己的公国填满。",
+  "expansions": [
+   {
+    "en": "The Castles of Burgundy: Special Edition",
+    "zh": "勃艮第城堡：特别典藏版",
+    "note": "收录历代 10 个小扩展，另有葡萄园和自动机；简体中文版由游卡桌游出版。"
+   }
+  ],
+  "best": [
+   2
+  ]
+ },
+ {
   "key": "sakura-arms",
   "url": "https://sakura.leisurecat.cloud",
   "zh": "散樱乱武",

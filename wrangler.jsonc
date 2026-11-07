@@ -43,6 +43,10 @@
   {
     "binding": "ASK_SAKURA",
     "service": "sakura-arms-helper"
+  },
+  {
+    "binding": "ASK_BURGUNDY",
+    "service": "castles-of-burgundy-helper"
   }
 ],
   "ai": { "binding": "AI" },
