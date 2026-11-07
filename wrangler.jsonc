@@ -39,6 +39,10 @@
   {
     "binding": "ASK_ARK",
     "service": "ark-nova-helper"
+  },
+  {
+    "binding": "ASK_SAKURA",
+    "service": "sakura-arms-helper"
   }
 ],
   "ai": { "binding": "AI" },

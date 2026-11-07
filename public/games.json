@@ -1009,5 +1009,38 @@
    7,
    8
   ]
+ },
+ {
+  "key": "sakura-arms",
+  "url": "https://sakura.leisurecat.cloud",
+  "zh": "散樱乱武",
+  "en": "SAKURA ARMS",
+  "cover": "img/games/sakura-arms.jpg",
+  "box": [
+   15.0,
+   21.0,
+   4.5
+  ],
+  "players": [
+   2,
+   2
+  ],
+  "time": [
+   20,
+   30
+  ],
+  "weight": 3.3,
+  "tags": [
+   "双人",
+   "对抗"
+  ],
+  "intro": "各借两位女神的力量一对一决斗，开局前从 22 张牌里秘密组出 7 张通常牌和 3 张王牌。",
+  "credit": {
+   "text": "ふるよにコモンズ/BakaFire,TOKIAME",
+   "url": "https://main-bakafire.ssl-lolipop.jp/furuyoni/na/rule.html"
+  },
+  "best": [
+   2
+  ]
  }
 ]

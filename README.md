@@ -87,6 +87,7 @@ node tests/test_tools.mjs     http://localhost:8811/   # 评价、选游戏（AI
 
 - 这是非官方的玩家工具，不提供游戏本体。
 - 游戏名称、规则和游戏盒封面的权利归各原出版方所有；背景插画为原创生成。
+- 散樱乱武的封面用的是官方素材包「新幕ふるよにコモンズ」里的新幕基本盒正面原画（`basic_packageart.jpg`，没有标题字，只整体缩放），按条款在页脚署名并链接；`games.json` 的 `credit` 字段控制转到该游戏时页脚显示署名。它的 `box` 尺寸 15×21×4.5 是按原画比例估算的，没有找到实物尺寸的可靠来源。
 
 ## 总入口规则问答
 
@@ -125,7 +126,7 @@ wrangler dev --local --port 8811 \
   -c tests/mock/odin.jsonc -c tests/mock/tl.jsonc \
   -c tests/mock/arnak.jsonc -c tests/mock/botc.jsonc \
   -c tests/mock/avalon.jsonc -c tests/mock/dune.jsonc \
-  -c tests/mock/ark.jsonc
+  -c tests/mock/ark.jsonc -c tests/mock/sakura.jsonc
 ```
 
 另一终端运行：

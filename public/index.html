@@ -91,6 +91,7 @@ body{font-family:var(--sans);color:var(--text);user-select:none;-webkit-user-sel
 .nav.r{right:max(16px,calc(50% - var(--dr) - 30px))}
 @media (pointer:coarse){.nav{display:none}}
 .legal{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 8px);text-align:center;font-size:10px;color:rgba(243,234,214,.3);z-index:5;transition:opacity .4s}
+.legal a{color:inherit;text-underline-offset:2px}
 
 /* entering a game: the box cover flies to full screen and blurs away */
 .zoom{position:fixed;z-index:20;object-fit:cover;border-radius:3px;pointer-events:none;
@@ -119,7 +120,7 @@ body.going .stage,body.going .cap,body.going .brand,body.going .nav,body.going .
   <div class="dots" id="dots"></div>
   <div class="hint">左右滑动转动转盘 · 轻触游戏盒进入</div>
 </div>
-<div class="legal">非官方玩家工具 · 游戏盒封面版权归各出版社所有</div>
+<div class="legal" id="legal">非官方玩家工具 · 游戏盒封面版权归各出版社所有</div>
 
 <script type="module">
 // Box sizes are the real boxes' proportions in cm (width × height × depth), so they stand on the turntable at true scale.
@@ -207,6 +208,8 @@ function select(a) {
   try { localStorage.setItem('hub-game', a); } catch {}
   const g = GAMES[a];
   const show = () => { $('en').textContent = g.en; $('zh').textContent = g.zh; showRating(); cap.classList.remove('swap'); };
+  // covers from an official material pack must carry its credit and link while shown (games.json "credit")
+  $('legal').innerHTML = '非官方玩家工具 · ' + (g.credit ? `封面：<a href="${g.credit.url}" target="_blank" rel="noopener">${g.credit.text}</a>` : '游戏盒封面版权归各出版社所有');
   if (first) show(); else { cap.classList.add('swap'); setTimeout(show, 180); }
   [...$('dots').children].forEach((d, i) => d.classList.toggle('on', i === a));
   const next = $('bg' + bgFlip), prev = $('bg' + (1 - bgFlip));
