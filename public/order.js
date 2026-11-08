@@ -7,12 +7,15 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 const store = { get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const wait = ms => new Promise(r => setTimeout(r, ms));
+// Sister sites link here as /?order=<人数>&back=<their page>; closing the sheet then returns to that page.
+const BACK_OK = /^(https:\/\/[a-z0-9-]+\.leisurecat\.cloud|http:\/\/localhost:\d+)\//;
 
-export function open() {
-  let n = store.get('order-n', 4), tab = store.get('order-tab', 'finger');
+export function open({ n: n0, back } = {}) {
+  let n = n0 >= 2 && n0 <= 8 ? n0 : store.get('order-n', 4), tab = store.get('order-tab', 'finger');
+  if (back && !BACK_OK.test(back)) back = null;
   const sheet = document.createElement('div');
   sheet.className = 'sheet';
-  sheet.innerHTML = `<div class="sh-head"><h2>定先后手</h2><button class="sh-x" aria-label="关闭">×</button></div>
+  sheet.innerHTML = `<div class="sh-head">${back ? '<button class="sh-back">‹ 返回</button>' : ''}<h2>定先后手</h2>${back ? '' : '<button class="sh-x" aria-label="关闭">×</button>'}</div>
     <div class="sh-body"><div class="sh-inner">
       <div class="tabs"><button data-t="finger">手指轮盘</button><button data-t="bag">随机排序</button></div>
       <div class="grp"><b>几个人</b><div class="chips" id="oN">${[2, 3, 4, 5, 6, 7, 8].map(i => `<button data-n="${i}">${i}</button>`).join('')}</div></div>
@@ -20,7 +23,8 @@ export function open() {
     </div></div>`;
   document.body.appendChild(sheet);
   const close = () => { sheet.classList.add('out'); setTimeout(() => sheet.remove(), 220); };
-  sheet.querySelector('.sh-x').onclick = close;
+  if (back) sheet.querySelector('.sh-back').onclick = () => location.replace(back);
+  else sheet.querySelector('.sh-x').onclick = close;
   sheet.querySelector('.tabs').onclick = e => { const t = e.target.dataset.t; if (t) { tab = t; store.set('order-tab', t); render(); } };
   sheet.querySelector('#oN').onclick = e => { const v = +e.target.dataset.n; if (v) { n = v; store.set('order-n', v); render(); } };
 

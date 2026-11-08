@@ -22,6 +22,7 @@ body.going .pill{opacity:0}
 @keyframes shOut{to{opacity:0;transform:translateY(16px)}}
 .sh-head{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 14px) 16px 10px}
 .sh-head h2{flex:1;font:900 20px var(--serif);letter-spacing:3px}
+.sh-back{height:36px;padding:0 14px;border:0;border-radius:18px;background:rgba(255,255,255,.08);color:var(--text);font:600 15px var(--sans,inherit);cursor:pointer}
 .sh-x{width:36px;height:36px;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:var(--text);font-size:20px;cursor:pointer}
 .sh-body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:4px 16px calc(env(safe-area-inset-bottom) + 24px)}
 .sh-inner{max-width:560px;margin:0 auto}
