@@ -78,8 +78,10 @@ async function reviews(req, env, url) {
   let b;
   try { b = await req.json(); } catch { b = null; }
   const clean = (s, n) => String(s ?? '').replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, n);
-  const r = b && { game: b.game, stars: b.stars, name: clean(b.name, 20), text: clean(b.text, 300), room: clean(b.room, 8) };
-  if (!r || !KEYS.has(r.game) || !Number.isInteger(r.stars) || r.stars < 1 || r.stars > 5 || !r.name)
+  // played: the sites post at the end of a game, so a missing flag means played; the homepage form sends true / false.
+  // device: the homepage form sends a per-phone id instead of a room; that phone keeps one review per game even if the name changes.
+  const r = b && { game: b.game, stars: b.stars, name: clean(b.name, 20), text: clean(b.text, 300), room: clean(b.device || b.room, 8), device: !!b.device, played: b.played ?? true };
+  if (!r || !KEYS.has(r.game) || !Number.isInteger(r.stars) || r.stars < 1 || r.stars > 5 || !r.name || typeof r.played !== 'boolean')
     return cors(req, Response.json({ error: '评价格式不对，请刷新页面再试' }, { status: 400 }));
   return cors(req, await db.fetch('https://reviews/add', { method: 'POST', body: JSON.stringify(r) }));
 }
@@ -91,28 +93,34 @@ export class Reviews extends DurableObject {
     this.sql = ctx.storage.sql;
     this.sql.exec(`CREATE TABLE IF NOT EXISTS r (game TEXT, room TEXT, name TEXT, stars INTEGER, text TEXT, at INTEGER,
       PRIMARY KEY (game, room, name))`);
+    if (!this.sql.exec("SELECT 1 FROM pragma_table_info('r') WHERE name = 'played'").toArray().length)
+      this.sql.exec('ALTER TABLE r ADD COLUMN played INTEGER NOT NULL DEFAULT 1');
   }
   async fetch(req) {
     const url = new URL(req.url);
     if (url.pathname === '/add') {
       const r = await req.json();
       // one review per player per game record (same room + name): a second post replaces the first
-      this.sql.exec('INSERT OR REPLACE INTO r VALUES (?,?,?,?,?,?)', r.game, r.room, r.name, r.stars, r.text, Date.now());
+      if (r.device) this.sql.exec('DELETE FROM r WHERE game = ? AND room = ?', r.game, r.room);
+      this.sql.exec('INSERT OR REPLACE INTO r (game, room, name, stars, text, at, played) VALUES (?,?,?,?,?,?,?)', r.game, r.room, r.name, r.stars, r.text, Date.now(), r.played ? 1 : 0);
       return Response.json({ ok: true, ...this.stat(r.game) });
     }
     if (url.pathname === '/list') {
       const game = url.searchParams.get('game');
-      const items = this.sql.exec('SELECT name, stars, text, at FROM r WHERE game = ? ORDER BY at DESC LIMIT 50', game).toArray();
-      return Response.json({ ...this.stat(game), items });
+      const items = this.sql.exec('SELECT name, stars, text, at, played FROM r WHERE game = ? ORDER BY at DESC LIMIT 50', game).toArray()
+        .map(x => ({ ...x, played: !!x.played }));
+      return Response.json({ ...this.stat(game), played: this.stat(game, 1), unplayed: this.stat(game, 0), items });
     }
     const out = {};
     for (const row of this.sql.exec('SELECT game, AVG(stars) a, COUNT(*) n FROM r GROUP BY game')) out[row.game] = { avg: Math.round(row.a * 10) / 10, count: row.n };
     return Response.json(out);
   }
-  stat(game) {
+  stat(game, played) {   // played: 1 / 0 for one group, undefined for all
     const dist = [0, 0, 0, 0, 0];
     let n = 0, sum = 0;
-    for (const row of this.sql.exec('SELECT stars, COUNT(*) c FROM r WHERE game = ? GROUP BY stars', game)) { dist[row.stars - 1] = row.c; n += row.c; sum += row.stars * row.c; }
+    const rows = played === undefined ? this.sql.exec('SELECT stars, COUNT(*) c FROM r WHERE game = ? GROUP BY stars', game)
+      : this.sql.exec('SELECT stars, COUNT(*) c FROM r WHERE game = ? AND played = ? GROUP BY stars', game, played);
+    for (const row of rows) { dist[row.stars - 1] = row.c; n += row.c; sum += row.stars * row.c; }
     return { avg: n ? Math.round(sum / n * 10) / 10 : 0, count: n, dist };
   }
 }

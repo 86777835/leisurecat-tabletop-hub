@@ -50,14 +50,16 @@
 | `public/games.json` | 游戏库。带 `url` 的是有助手的游戏，会出现在转盘上；`box` 是真实盒子尺寸（cm） |
 | `public/picker.js` | 帮我选游戏：推荐指数算法、抽盲盒动画 |
 | `public/order.js` | 定先后手：多点触控的手指轮盘、袋子抽签 |
-| `public/reviews.js` | 评价列表 |
+| `public/reviews.js` | 评价列表与写评价（分已游玩 / 未游玩） |
+| `public/group.js` | 进群交流：微信群二维码（7 天过期，换图时改文件名和日期） |
 | `src/worker.js` | `/api/reviews`：评价存在 `Reviews` Durable Object（SQLite）里，允许 `*.leisurecat.cloud` 跨域；`/api/pick`：AI 选游戏，先用 DeepSeek，不行再用 Workers AI 上的 Qwen，回答只能是游戏库里的游戏 |
 
 ### 评价接口
 
 ```
-POST /api/reviews   { game, stars: 1-5, name, text, room }   同一局同一玩家再次提交会覆盖
-GET  /api/reviews?game=pgh                                  → { avg, count, dist[5], items[] }
+POST /api/reviews   { game, stars: 1-5, name, text, room }   各站终局提交，算已游玩；同一局同一玩家再次提交会覆盖
+POST /api/reviews   { game, stars, name, text, device, played: true/false }   首页随时可写；同一台手机同一款游戏只留一条
+GET  /api/reviews?game=pgh                                  → { avg, count, dist[5], played: {…}, unplayed: {…}, items[{…, played}] }
 GET  /api/reviews                                           → { pgh: { avg, count }, ... }
 ```
 
