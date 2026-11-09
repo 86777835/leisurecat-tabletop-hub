@@ -196,8 +196,12 @@ function showRating() {
 }
 $('rate').onclick = () => openReviews(GAMES[active], (key, r) => { ratings[key] = r; showRating(); });
 $('groupBtn').onclick = () => import('./group.js').then(m => m.open());
+// one-time 进群 hint after a few seconds on the homepage (not when a sister site sent the user here for one task)
+if (!/[?&](order|rate)=/.test(location.search)) setTimeout(() => import('./group.js').then(m => m.tip()), 8000);
 $('orderBtn').onclick = () => import('./order.js').then(m => m.open());
 { const q = new URLSearchParams(location.search); if (q.has('order')) import('./order.js').then(m => m.open({ n: +q.get('order'), back: q.get('back') })); }
+{ const q = new URLSearchParams(location.search), g = GAMES.find(x => x.key === q.get('rate'));
+  if (g) openReviews(g, (key, r) => { ratings[key] = r; showRating(); }, { back: q.get('back'), write: true }); }
 $('pickBtn').onclick = () => import('./picker.js').then(m => m.open(ALL, ratings, key => {
   // turn the picked game to the front, then enter it
   const i = GAMES.findIndex(g => g.key === key);

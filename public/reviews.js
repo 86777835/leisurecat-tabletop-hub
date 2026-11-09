@@ -6,14 +6,18 @@ const store = { get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? 
 // One review per phone per game: the server replaces this phone's earlier review of the same game.
 const device = () => { let id = store.get('rv-dev', ''); if (!id) { id = 'h' + Math.random().toString(36).slice(2, 9); store.set('rv-dev', id); } return id; };
 const GROUPS = [['all', '全部'], ['played', '已游玩'], ['unplayed', '未游玩']];
+// Sister sites link here as /?rate=<game>&back=<their page>: the form opens at once, and 返回 goes back to that page (same rule as order.js).
+const BACK_OK = /^(https:\/\/[a-z0-9-]+\.leisurecat\.cloud|http:\/\/localhost:\d+)\//;
 
-export async function open(g, onSaved) {
+export async function open(g, onSaved, { back, write } = {}) {
+  if (back && !BACK_OK.test(back)) back = null;
   const sheet = document.createElement('div');
   sheet.className = 'sheet';
-  sheet.innerHTML = `<div class="sh-head"><h2>${esc(g.zh)} · 玩家评价</h2><button class="sh-x" aria-label="关闭">×</button></div>
+  sheet.innerHTML = `<div class="sh-head">${back ? '<button class="sh-back">‹ 返回</button>' : ''}<h2>${esc(g.zh)} · 玩家评价</h2>${back ? '' : '<button class="sh-x" aria-label="关闭">×</button>'}</div>
     <div class="sh-body"><div class="sh-inner" id="rvIn"></div></div>`;
   document.body.appendChild(sheet);
-  sheet.querySelector('.sh-x').onclick = () => { sheet.classList.add('out'); setTimeout(() => sheet.remove(), 220); };
+  if (back) sheet.querySelector('.sh-back').onclick = () => location.replace(back);
+  else sheet.querySelector('.sh-x').onclick = () => { sheet.classList.add('out'); setTimeout(() => sheet.remove(), 220); };
   const box = sheet.querySelector('#rvIn');
   let data = null, group = 'all';
 
@@ -58,7 +62,7 @@ export async function open(g, onSaved) {
     };
     box.querySelector('#rvP').onclick = e => { const b = e.target.closest('button'); if (b) { played = b.dataset.p === '1'; paint(); } };
     box.querySelector('#rvS').onclick = e => { const b = e.target.closest('button'); if (b) { n = +b.dataset.s; paint(); } };
-    box.querySelector('#rvC').onclick = list;
+    box.querySelector('#rvC').onclick = () => data ? list() : load();
     box.querySelector('#rvOk').onclick = async () => {
       const name = box.querySelector('#rvN').value.trim(), text = box.querySelector('#rvT').value.trim(), err = box.querySelector('#rvE');
       const miss = played === null ? '请选择已游玩或未游玩' : !n ? '请点星星打分' : !name ? '请填一个昵称' : '';
@@ -80,5 +84,6 @@ export async function open(g, onSaved) {
     paint();
   }
 
-  load();
+  // from a sister site's 写评价 button: show the form first; 取消 / 提交 then lead to the list
+  if (write) form(); else load();
 }

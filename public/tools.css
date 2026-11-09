@@ -187,3 +187,12 @@ body.going .gfab{opacity:0}
 .rv-stars button.on{color:#f2c94c}
 .inp{width:100%;height:44px;padding:0 14px;border-radius:12px;border:1px solid rgba(243,234,214,.18);background:rgba(255,255,255,.05);color:var(--text);font:16px var(--sans);outline:none;user-select:auto;-webkit-user-select:auto}
 .inp:focus{border-color:var(--brass)}
+/* one-time 进群 hint, a bubble pointing at the 进群 button */
+.gtip{position:fixed;left:12px;bottom:calc(env(safe-area-inset-bottom) + 242px);z-index:19;display:flex;align-items:center;gap:10px;max-width:calc(100vw - 24px);padding:10px 8px 10px 14px;
+  border:1px solid rgba(224,194,122,.5);border-radius:14px;background:rgba(10,11,15,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 8px 24px rgba(0,0,0,.4);animation:gtip .35s ease-out}
+.gtip::after{content:"";position:absolute;left:22px;bottom:-7px;width:12px;height:12px;background:rgba(10,11,15,.88);border:solid rgba(224,194,122,.5);border-width:0 1px 1px 0;transform:rotate(45deg)}
+.gtip p{font:600 13px/1.45 var(--sans);color:var(--text)}
+.gtip .go{height:34px;padding:0 12px;border:0;border-radius:17px;background:var(--brass);color:#1a1408;font:700 13px var(--sans);cursor:pointer;white-space:nowrap}
+.gtip .x{width:30px;height:30px;border:0;border-radius:50%;background:none;color:var(--dim);font-size:18px;cursor:pointer}
+body.going .gtip{opacity:0}
+@keyframes gtip{from{opacity:0;transform:translateY(8px)}}
