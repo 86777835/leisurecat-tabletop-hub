@@ -274,11 +274,12 @@ const go = t => { target = t; if (!raf) raf = requestAnimationFrame(tick); };
 const step = s => go(Math.round(target) + s);
 
 // change turntable: the current one slides away, the next one slides in from the other side.
-// dir 1 = the next shelf comes up from below (finger swiped up); there is no wrap past the first or last shelf.
+// dir 1 = the next shelf comes up from below (finger swiped up). Shelves loop: past the last comes the first.
 let switching = false;
 function switchShelf(s, dir, key) {
   if (switching) return;
-  if (s < 0 || s >= SHELVES.length || s === shelf) { settle(); return; }
+  s = (s + SHELVES.length) % SHELVES.length;
+  if (s === shelf) { settle(); return; }
   switching = true;
   const swap = () => build(s, key ? Math.max(0, HELPERS.filter(x => x.shelf === SHELVES[s]).findIndex(x => x.key === key)) : 0);
   if (reduce) { swap(); layout(); stage.style.transform = stage.style.opacity = ''; switching = false; return; }
@@ -317,9 +318,8 @@ addEventListener('pointermove', e => {
   }
   if (!drag.moved) return;
   if (drag.axis === 'y') {
-    // the turntable follows the finger; stiffer when there is no shelf in that direction
-    const open = shelf + (dy < 0 ? 1 : -1), k = open >= 0 && open < SHELVES.length ? .45 : .15;
-    stage.style.transform = `translateY(${dy * k}px)`; stage.style.opacity = 1 - Math.min(Math.abs(dy) / 500, .45);
+    // the turntable follows the finger
+    stage.style.transform = `translateY(${dy * .45}px)`; stage.style.opacity = 1 - Math.min(Math.abs(dy) / 500, .45);
     return;
   }
   const dt = Math.max(1, e.timeStamp - drag.lt);

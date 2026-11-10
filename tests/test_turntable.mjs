@@ -1,4 +1,4 @@
-// Turntable: three shelves (德式 / 推理阵营 / 其他). Swipe left/right turns the table, up/down changes shelf;
+// Turntable: three shelves (德式 / 推理阵营 / 其他). Swipe left/right turns the table, up/down changes shelf (both loop);
 // arrow keys, the shelf rail, tapping a side box, wrap-around, neighbour overlap, remembering the last game,
 // entering a game and the back button. Phone and desktop sizes.
 // Usage: node tests/test_turntable.mjs http://localhost:8811/   (also safe against the live site: it writes nothing)
@@ -78,13 +78,15 @@ for (const [n, o] of [['m', { viewport: { width: 390, height: 844 }, deviceScale
     await p.waitForTimeout(1200);
     eq(`${n} ${SHELVES[s]} wraps around`, await title(), games[0].zh);
   }
-  // no shelf after the last one
+  // shelves loop: up from the last shelf comes the first, down from the first comes the last
   if (n === 'm') await swipe(0, -200); else await p.keyboard.press('ArrowDown');
-  await p.waitForTimeout(500);
-  eq(n + ' no shelf past 其他', [await on(), await title()], ['其他', byShelf[2][0].zh]);
-  // back up one shelf, then the rail jumps straight to 德式
+  await p.waitForTimeout(900);   // a shelf change takes ~0.6 s; input during it is ignored
+  eq(n + ' past 其他 loops to 德式', [await on(), await title()], ['德式', byShelf[0][0].zh]);
   if (n === 'm') await swipe(0, 200); else await p.keyboard.press('ArrowUp');
-  await p.waitForTimeout(500);
+  await p.waitForTimeout(900);   // a shelf change takes ~0.6 s; input during it is ignored
+  eq(n + ' before 德式 loops to 其他', [await on(), await title()], ['其他', byShelf[2][0].zh]);
+  if (n === 'm') await swipe(0, 200); else await p.keyboard.press('ArrowUp');
+  await p.waitForTimeout(900);   // a shelf change takes ~0.6 s; input during it is ignored
   eq(n + ' swipe down → previous shelf', [await on(), await title()], ['推理阵营', byShelf[1][0].zh]);
   await p.evaluate(() => document.getElementById('next').click()); await p.waitForTimeout(1200);
   eq(n + ' turned to the 2nd 推理阵营 game', await title(), byShelf[1][1].zh);
