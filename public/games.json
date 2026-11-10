@@ -4,6 +4,7 @@
   "zh": "工业革命：匹兹堡",
   "en": "BRASS · PITTSBURGH",
   "url": "https://pgh.leisurecat.cloud",
+  "shelf": "德式",
   "box": [
    29.8,
    29.8,
@@ -30,6 +31,7 @@
   "zh": "工业革命：伯明翰",
   "en": "BRASS · BIRMINGHAM",
   "url": "https://bham.leisurecat.cloud",
+  "shelf": "德式",
   "box": [
    30.0,
    30.0,
@@ -56,14 +58,16 @@
   ]
  },
  {
-  "key": "odin",
-  "zh": "奥丁的盛宴",
-  "en": "A FEAST FOR ODIN",
-  "url": "https://odin.leisurecat.cloud",
+  "key": "arnak",
+  "url": "https://arnak.leisurecat.cloud",
+  "shelf": "德式",
+  "zh": "阿纳克遗迹",
+  "en": "LOST RUINS OF ARNAK",
+  "cover": "img/games/arnak.jpg",
   "box": [
-   22.5,
-   31.5,
-   12.0
+   37.0,
+   25.5,
+   7.5
   ],
   "players": [
    1,
@@ -73,18 +77,22 @@
    30,
    120
   ],
-  "weight": 3.9,
+  "weight": 2.9,
   "tags": [
-   "德式",
-   "工人放置",
-   "拼图"
+   "卡牌构筑",
+   "工人放置"
   ],
-  "intro": "维京人出海、狩猎、贸易，把货物拼进领地板。",
+  "intro": "在神秘岛屿上探险考古，用卡组构筑加工人放置发掘遗迹。",
   "expansions": [
    {
-    "en": "A Feast for Odin: The Norwegians",
-    "zh": "奥丁的盛宴：挪威传奇",
-    "note": "新增四座岛屿、马和猪等新拼块，以及按人数可调的新行动板。"
+    "en": "Lost Ruins of Arnak: Expedition Leaders",
+    "zh": "阿纳克遗迹：探险领队（暂译）",
+    "note": "六位各有能力和起始牌组的领队，还有替换研究轨道和新卡牌。"
+   },
+   {
+    "en": "Lost Ruins of Arnak: The Missing Expedition",
+    "zh": "阿纳克遗迹：失落的探险队（暂译）",
+    "note": "六章单人/双人合作战役，附新研究轨道、神器、物品与助手。"
    }
   ],
   "best": [
@@ -92,48 +100,9 @@
   ]
  },
  {
-  "key": "tl",
-  "zh": "惨剧轮回",
-  "en": "TRAGEDY LOOPER",
-  "url": "https://tl.leisurecat.cloud",
-  "box": [
-   22.2,
-   30.5,
-   4.4
-  ],
-  "players": [
-   2,
-   4
-  ],
-  "time": [
-   120,
-   120
-  ],
-  "weight": 3.5,
-  "tags": [
-   "推理",
-   "阵营"
-  ],
-  "intro": "一人扮演幕后黑手，其余玩家在时间轮回中推理并阻止惨剧。",
-  "expansions": [
-   {
-    "en": "Tragedy Looper: Midnight Circle",
-    "zh": "",
-    "note": "收录 Midnight Zone 与 Mystery Circle 两套惨剧规则，含谎言机制和纯逻辑剧本。"
-   },
-   {
-    "en": "Tragedy Looper: Cosmic Evil",
-    "zh": "",
-    "note": "加入古代魔法主题的两套惨剧，以及教师、士兵、转学生、猫等新角色。"
-   }
-  ],
-  "best": [
-   4
-  ]
- },
- {
   "key": "ark-nova",
   "url": "https://ark.leisurecat.cloud",
+  "shelf": "德式",
   "zh": "方舟动物园",
   "en": "ARK NOVA",
   "cover": "img/games/ark-nova.jpg",
@@ -170,6 +139,7 @@
  {
   "key": "dune-imperium",
   "url": "https://dune.leisurecat.cloud/?v=base",
+  "shelf": "德式",
   "zh": "沙丘：帝国",
   "en": "DUNE: IMPERIUM",
   "cover": "img/games/dune-imperium.jpg",
@@ -218,6 +188,7 @@
  {
   "key": "dune-uprising",
   "url": "https://dune.leisurecat.cloud/?v=uprising",
+  "shelf": "德式",
   "zh": "沙丘：帝国 起义",
   "en": "DUNE: IMPERIUM – UPRISING",
   "cover": "img/games/dune-uprising.jpg",
@@ -253,15 +224,15 @@
   ]
  },
  {
-  "key": "arnak",
-  "url": "https://arnak.leisurecat.cloud",
-  "zh": "阿纳克遗迹",
-  "en": "LOST RUINS OF ARNAK",
-  "cover": "img/games/arnak.jpg",
+  "key": "odin",
+  "zh": "奥丁的盛宴",
+  "en": "A FEAST FOR ODIN",
+  "url": "https://odin.leisurecat.cloud",
+  "shelf": "德式",
   "box": [
-   37.0,
-   25.5,
-   7.5
+   22.5,
+   31.5,
+   12.0
   ],
   "players": [
    1,
@@ -271,26 +242,59 @@
    30,
    120
   ],
-  "weight": 2.9,
+  "weight": 3.9,
   "tags": [
-   "卡牌构筑",
-   "工人放置"
+   "德式",
+   "工人放置",
+   "拼图"
   ],
-  "intro": "在神秘岛屿上探险考古，用卡组构筑加工人放置发掘遗迹。",
+  "intro": "维京人出海、狩猎、贸易，把货物拼进领地板。",
   "expansions": [
    {
-    "en": "Lost Ruins of Arnak: Expedition Leaders",
-    "zh": "阿纳克遗迹：探险领队（暂译）",
-    "note": "六位各有能力和起始牌组的领队，还有替换研究轨道和新卡牌。"
-   },
-   {
-    "en": "Lost Ruins of Arnak: The Missing Expedition",
-    "zh": "阿纳克遗迹：失落的探险队（暂译）",
-    "note": "六章单人/双人合作战役，附新研究轨道、神器、物品与助手。"
+    "en": "A Feast for Odin: The Norwegians",
+    "zh": "奥丁的盛宴：挪威传奇",
+    "note": "新增四座岛屿、马和猪等新拼块，以及按人数可调的新行动板。"
    }
   ],
   "best": [
    3
+  ]
+ },
+ {
+  "key": "castles-of-burgundy",
+  "url": "https://burgundy.leisurecat.cloud",
+  "shelf": "德式",
+  "zh": "勃艮第城堡",
+  "en": "THE CASTLES OF BURGUNDY",
+  "cover": "img/games/castles-of-burgundy.jpg",
+  "box": [
+   27.0,
+   37.0,
+   16.4
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   70,
+   120
+  ],
+  "weight": 2.8,
+  "tags": [
+   "德式",
+   "拼图"
+  ],
+  "intro": "十五世纪的勃艮第公爵，用骰子挑选六角片，建起城堡、牧场、城镇和修道院，把自己的公国填满。",
+  "expansions": [
+   {
+    "en": "The Castles of Burgundy: Special Edition",
+    "zh": "勃艮第城堡：特别典藏版",
+    "note": "收录历代 10 个小扩展，另有葡萄园和自动机；简体中文版由游卡桌游出版。"
+   }
+  ],
+  "best": [
+   2
   ]
  },
  {
@@ -913,8 +917,50 @@
   ]
  },
  {
+  "key": "tl",
+  "zh": "惨剧轮回",
+  "en": "TRAGEDY LOOPER",
+  "url": "https://tl.leisurecat.cloud",
+  "shelf": "推理阵营",
+  "box": [
+   22.2,
+   30.5,
+   4.4
+  ],
+  "players": [
+   2,
+   4
+  ],
+  "time": [
+   120,
+   120
+  ],
+  "weight": 3.5,
+  "tags": [
+   "推理",
+   "阵营"
+  ],
+  "intro": "一人扮演幕后黑手，其余玩家在时间轮回中推理并阻止惨剧。",
+  "expansions": [
+   {
+    "en": "Tragedy Looper: Midnight Circle",
+    "zh": "",
+    "note": "收录 Midnight Zone 与 Mystery Circle 两套惨剧规则，含谎言机制和纯逻辑剧本。"
+   },
+   {
+    "en": "Tragedy Looper: Cosmic Evil",
+    "zh": "",
+    "note": "加入古代魔法主题的两套惨剧，以及教师、士兵、转学生、猫等新角色。"
+   }
+  ],
+  "best": [
+   4
+  ]
+ },
+ {
   "key": "botc",
   "url": "https://botc.leisurecat.cloud",
+  "shelf": "推理阵营",
   "zh": "血染钟楼",
   "en": "BLOOD ON THE CLOCKTOWER",
   "cover": "img/games/botc.jpg",
@@ -965,6 +1011,7 @@
  {
   "key": "avalon",
   "url": "https://avalon.leisurecat.cloud",
+  "shelf": "推理阵营",
   "zh": "阿瓦隆",
   "en": "THE RESISTANCE: AVALON",
   "cover": "img/games/avalon.jpg",
@@ -1011,44 +1058,9 @@
   ]
  },
  {
-  "key": "castles-of-burgundy",
-  "url": "https://burgundy.leisurecat.cloud",
-  "zh": "勃艮第城堡",
-  "en": "THE CASTLES OF BURGUNDY",
-  "cover": "img/games/castles-of-burgundy.jpg",
-  "box": [
-   27.0,
-   37.0,
-   16.4
-  ],
-  "players": [
-   1,
-   4
-  ],
-  "time": [
-   70,
-   120
-  ],
-  "weight": 2.8,
-  "tags": [
-   "德式",
-   "拼图"
-  ],
-  "intro": "十五世纪的勃艮第公爵，用骰子挑选六角片，建起城堡、牧场、城镇和修道院，把自己的公国填满。",
-  "expansions": [
-   {
-    "en": "The Castles of Burgundy: Special Edition",
-    "zh": "勃艮第城堡：特别典藏版",
-    "note": "收录历代 10 个小扩展，另有葡萄园和自动机；简体中文版由游卡桌游出版。"
-   }
-  ],
-  "best": [
-   2
-  ]
- },
- {
   "key": "sakura-arms",
   "url": "https://sakura.leisurecat.cloud",
+  "shelf": "其他",
   "zh": "散樱乱武",
   "en": "SAKURA ARMS",
   "cover": "img/games/sakura-arms.jpg",
