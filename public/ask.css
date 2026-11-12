@@ -26,3 +26,10 @@
 .cin button{width:44px;border:1px solid #6e5220;border-radius:50%;background:var(--brass);font-size:20px;color:#2a1c08;cursor:pointer}
 .cin button:disabled{opacity:.4}
 .cfoot{text-align:center;color:var(--dim);font-size:10px;padding:0 8px 9px}
+
+/* answers a site found on the web: a label on top, sources underneath */
+.cweb{margin:0 0 6px;padding:5px 8px;border-radius:7px;background:#e0c27a1f;font:500 12px/1.5 var(--sans);color:var(--dim)}
+.cweb b{color:var(--brass)}
+.csrc{margin-top:8px;padding-top:6px;border-top:1px dashed #e0c27a40;font:12px/1.5 var(--sans);color:var(--dim)}
+.csrc a{display:block;color:#9fc3ff;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.csrc i{margin-left:6px;font-style:normal;opacity:.7}

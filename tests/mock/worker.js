@@ -17,6 +17,13 @@ export default {
           await new Promise(r => setTimeout(r, 250));
           c.enqueue(enc.encode(event({ reset: 'mock-model-hidden' })));
         }
+        if (question.includes('mockweb')) {   // the site's notes lack it: it searches the web and answers from the results
+          c.enqueue(enc.encode(event({ searching: true })));
+          await new Promise(r => setTimeout(r, 200));
+          c.enqueue(enc.encode(event({ web: [{ title: 'Rules thread <b>', url: 'https://boardgamegeek.com/thread/1', site: 'BoardGameGeek' }] })));
+          c.enqueue(enc.encode(delta('网上的说法 [1]')));
+          c.enqueue(enc.encode('data: [DONE]\n\n')); c.close(); return;
+        }
         if (question.includes('mockerror')) { c.enqueue(enc.encode(event({ error: '模拟流内错误' }))); c.close(); return; }
         c.enqueue(enc.encode(delta(info)));
         if (!question.includes('mockdrop')) c.enqueue(enc.encode('data: [DONE]\n\n'));

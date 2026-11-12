@@ -40,6 +40,10 @@ for(const width of (process.argv[2] ? [Number(process.argv[2])] : [390,320])) {
  await page.screenshot({path:shots+`ask_direct_${width}.png`});
  await ask('沙虫怎么用');await done();assert.match(await page.locator('.cm.a a').last().getAttribute('href'),/v=uprising/);
  await ask('匹兹堡 mockreset'); await done();assert.ok(!(await page.locator('.canswer').last().textContent()).includes('这段旧回答必须消失'));assert.ok(!(await page.locator('.clog').textContent()).includes('mock-model-hidden'));
+ await ask('匹兹堡 mockweb'); await done();
+ assert.equal(await page.locator('.canswer').last().locator('.cweb').count(),1);
+ assert.deepEqual(await page.locator('.canswer').last().locator('.csrc a').evaluateAll(es=>es.map(e=>[e.textContent,e.getAttribute('href'),e.target])),[['[1] Rules thread <b>BoardGameGeek','https://boardgamegeek.com/thread/1','_blank']]);
+ await page.screenshot({path:shots+`ask_web_${width}.png`});
  for(const [q,match] of [['mock429',/429/],['mock503',/503/],['mockerror',/模拟流内错误/],['mockdrop',/网络连接中断/]]) {await ask(q);await done();assert.match(await page.locator('.canswer').last().textContent(),match);}
  const before=requests.length;await ask('展翅翱翔怎么玩');assert.equal(requests.length,before);assert.equal(await page.locator('.cm').last().textContent(),'这款还没有收录规则资料');
  await page.screenshot({path:shots+`ask_unavailable_${width}.png`});

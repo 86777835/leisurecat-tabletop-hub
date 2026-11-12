@@ -6,7 +6,7 @@ export function initAsk(games, centeredGame) {
   document.body.insertAdjacentHTML('beforeend', `
     <button class="cfab" aria-label="打开桌游规则问答"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 3C6.5 3 2 6.6 2 11c0 2.4 1.3 4.6 3.4 6.1L4.6 21l4.3-2.4c1 .3 2 .4 3.1.4 5.5 0 10-3.6 10-8s-4.5-8-10-8z"/></svg>问答</button>
     <section class="cpanel" hidden role="dialog" aria-label="桌游规则问答">
-      <header class="chd"><div><b>桌游规则问答</b><small>先选游戏 · 再查规则</small></div><button class="cx" aria-label="关闭问答">×</button></header>
+      <header class="chd"><div><b>桌游规则问答</b><small>先选游戏 · 依据规则书作答，查不到会联网找</small></div><button class="cx" aria-label="关闭问答">×</button></header>
       <div class="clog" aria-live="polite"><div class="cwel"><b>有规则问题，尽管问</b><p>问任何已收录游戏的规则。不确定是哪款时，请先选游戏。</p></div>
       <div class="csug">${['匹兹堡的石油城怎么用？', '奥丁的维京人怎么移民？', '梅林能看到莫德雷德吗？', '起义的沙虫奖励怎么翻倍？'].map(q => `<button>${q}</button>`).join('')}</div></div>
       <form class="cin"><textarea rows="1" maxlength="490" placeholder="输入游戏名和规则问题…" aria-label="规则问题" enterkeyhint="send"></textarea><button aria-label="发送问题">➤</button></form>
@@ -43,8 +43,15 @@ export function initAsk(games, centeredGame) {
     const requestMessages = [...messages, { role: 'user', content: q }].slice(-10);
     const out = row('cm a', `<strong class="cgame">${esc(game.zh)}</strong><div class="canswer">正在查规则…</div><a href="${esc(game.url)}">进入 ${esc(game.zh)} 助手 ›</a>`);
     const content = out.querySelector('.canswer');
-    let text = '', completed = false, reader;
-    const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 30000);
+    let text = '', completed = false, reader, web = null;   // web: sources when the site answered from a web search
+    const ctl = new AbortController();
+    let timer = setTimeout(() => ctl.abort(), 30000);
+    // A site's answer from the web is labelled as unchecked, with its sources under it (same as on the sites).
+    const show = () => {
+      const head = web?.length ? '<div class="cweb">本站资料没有这一条，以下来自网上讨论，<b>本站未核对</b>，请自行判断</div>' : '';
+      const src = web?.length ? `<div class="csrc">来源：${web.map((w, i) => `<a href="${esc(w.url)}" target="_blank" rel="noopener">[${i + 1}] ${esc(w.title)}<i>${esc(w.site)}</i></a>`).join('')}</div>` : '';
+      content.innerHTML = head + fmt(text) + src; scroll();
+    };
     try {
       const res = await fetch('/api/ask', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ game: key, messages: requestMessages }), signal: ctl.signal });
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || `出错了（${res.status}）`);
@@ -56,8 +63,13 @@ export function initAsk(games, centeredGame) {
         const j = JSON.parse(data);
         if (j.error) throw new Error(j.error);
         if (j.reset) { text = ''; content.textContent = '正在重新回答…'; return; }
+        if (j.searching) {   // not in the site's notes: it is searching the web, which takes a few more seconds
+          clearTimeout(timer); timer = setTimeout(() => ctl.abort(), 30000);
+          text = ''; content.textContent = '本站资料里没有，正在联网查找…'; return;
+        }
+        if (j.web) { web = j.web; return; }
         const piece = j.choices?.[0]?.delta?.content;
-        if (piece) { text += piece; content.innerHTML = fmt(text); scroll(); }
+        if (piece) { text += piece; show(); }
       }
       for (;;) {
         const { done, value } = await reader.read();
