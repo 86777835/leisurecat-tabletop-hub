@@ -43,6 +43,7 @@ body{font-family:var(--sans);color:var(--text);user-select:none;-webkit-user-sel
 .brand{position:fixed;top:calc(env(safe-area-inset-top) + 18px);left:0;right:0;text-align:center;z-index:5;transition:opacity .4s}
 .brand .en{font:500 11px "Cinzel",var(--serif);letter-spacing:6px;color:var(--brass);opacity:.85}
 .brand .zh{margin-top:6px;font:900 15px var(--serif);letter-spacing:6px;color:var(--dim)}
+.brand .slogan{margin-top:7px;font:600 12px var(--sans);letter-spacing:3px;color:var(--brass);opacity:.9}
 
 /* the stage: boxes stand on a turntable at --floor (y), seen slightly from above */
 .stage{position:fixed;inset:0;perspective:var(--persp,1200px);perspective-origin:50% 22%;touch-action:none;cursor:grab}
@@ -91,10 +92,11 @@ body{font-family:var(--sans);color:var(--text);user-select:none;-webkit-user-sel
 .nav.r{right:max(16px,calc(50% - var(--dr) - 30px))}
 @media (pointer:coarse){.nav{display:none}}
 /* shelf tabs under the brand: the three turntables (德式 / 推理阵营 / 其他); swipe up/down or tap to change */
-.shelves{position:fixed;top:calc(env(safe-area-inset-top) + 64px);left:50%;transform:translateX(-50%);z-index:6;display:flex;gap:2px;padding:3px;
+.shelves{position:fixed;top:calc(env(safe-area-inset-top) + 86px);left:50%;transform:translateX(-50%);z-index:6;display:flex;gap:2px;padding:3px;
   border:1px solid rgba(224,194,122,.28);border-radius:17px;background:rgba(10,11,15,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:opacity .4s}
 .shelves button{height:28px;padding:0 13px;border:0;border-radius:14px;background:none;color:var(--dim);font:600 13px var(--sans);letter-spacing:1px;white-space:nowrap;cursor:pointer}
 .shelves button.on{background:rgba(224,194,122,.18);color:var(--brass)}
+@media (min-width:421px){.shelves{top:calc(env(safe-area-inset-top) + 98px)}}   /* wider than 420px the brand shows its English line (tools.css), so the tabs sit lower */
 .legal{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 8px);text-align:center;font-size:10px;color:rgba(243,234,214,.3);z-index:5;transition:opacity .4s}
 .legal a{color:inherit;text-underline-offset:2px}
 
@@ -112,7 +114,7 @@ body.going .stage,body.going .cap,body.going .brand,body.going .nav,body.going .
 <div style="position:absolute;width:0;height:0;overflow:hidden"><img src="img/share.jpg" alt=""></div>
 <div class="bg" id="bg0"></div><div class="bg" id="bg1"></div>
 <div class="vignette"></div>
-<div class="brand"><div class="en">LEISURECAT · TABLETOP</div><div class="zh">桌游小助手</div></div>
+<div class="brand"><div class="en">LEISURECAT · TABLETOP</div><div class="zh">桌游小助手</div><div class="slogan">3 分钟规则全懂，开局不烧心</div></div>
 <button class="pill l" id="orderBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a4 4 0 0 1 4 4v5.3l3.6 1.1a2 2 0 0 1 1.4 2.2l-.9 6A2 2 0 0 1 18.1 22h-7.6a2 2 0 0 1-1.6-.8l-4.1-5.5a1.6 1.6 0 0 1 2.4-2.1L9 15.3V6a3 3 0 0 1 3-4z"/></svg>定先后手</button>
 <button class="gfab" id="groupBtn" aria-label="进群交流"><svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true"><path fill="currentColor" d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm7.5-1a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM9 13c-3.3 0-7 1.6-7 4.2V20h14v-2.8C16 14.6 12.3 13 9 13zm7.5-1c-.6 0-1.3.1-2 .2 1.6 1.1 2.5 2.6 2.5 4.6V20h5v-2.6c0-2.6-3.1-5.4-5.5-5.4z"/></svg>进群</button>
 <button class="pill r" id="pickBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm3 3.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM12 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-4 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>帮我选游戏</button>
