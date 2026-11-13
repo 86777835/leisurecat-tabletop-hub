@@ -14,7 +14,8 @@ export const ALIASES = {
   'castles-of-burgundy': ['勃艮第', '勃根地', '勃艮地', 'burgundy', '公国版图', '补给区', '修道院', '银矿', '盾徽', '3bd'],
   flip7: ['7连翻', '七连翻', '翻转7', '翻7', 'flip 7', 'flip7', '连翻三张', '卷土重来', '不许动', '冤家路窄'],
   seti: ['星空觅迹', 'seti', '群星计画', 'space agencies', '探寻地外文明', '外星生物', '奥陌陌', '半人马族', '太阳系公转', '着陆器', '金色计分板块'],
-  'gwt-new-zealand': ['新西兰开拓史', '大西部开拓者', '新西兰', '运羊', '剪羊毛', '剃毛', '港务长', '罗姆尼羊', 'gwt nz', 'great western trail new zealand']
+  'gwt-new-zealand': ['新西兰开拓史', '大西部开拓者', '新西兰', '运羊', '剪羊毛', '剃毛', '港务长', '罗姆尼羊', 'gwt nz', 'great western trail new zealand'],
+  'through-the-ages': ['历史巨轮', 'tta', 'through the ages', '人类文明新篇章', '新领袖', '新奇迹', '内政行动点', '黄色人口区', '蓝色供给区', '体面退出', '宣告革命', '筹划事件', '公共阵型区', '比尔·盖茨']
 };
 const normalize = s => s.toLowerCase().replace(/[：:·–—()（）]/g, ' ').replace(/\s+/g, ' ').trim();
 function contains(text, term) {

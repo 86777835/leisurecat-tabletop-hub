@@ -59,6 +59,10 @@
   {
     "binding": "ASK_GWTNZ",
     "service": "gwt-new-zealand-helper"
+  },
+  {
+    "binding": "ASK_TTA",
+    "service": "through-the-ages-helper"
   }
 ],
   "ai": { "binding": "AI" },

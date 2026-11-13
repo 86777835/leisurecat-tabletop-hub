@@ -261,32 +261,41 @@
   ]
  },
  {
-  "key": "gwt-new-zealand",
-  "url": "https://gwtnz.leisurecat.cloud",
+  "key": "through-the-ages",
+  "url": "https://tta.leisurecat.cloud",
   "shelf": "德式",
-  "zh": "大西部开拓者：新西兰开拓史",
-  "en": "GREAT WESTERN TRAIL: NEW ZEALAND",
-  "cover": "img/games/gwt-new-zealand.jpg",
+  "zh": "历史巨轮",
+  "en": "THROUGH THE AGES",
+  "cover": "img/games/through-the-ages.jpg",
   "box": [
-   29.7,
-   29.7,
-   7.1
+   36.5,
+   25.5,
+   7.0
   ],
   "players": [
-   1,
+   2,
    4
   ],
   "time": [
-   75,
-   150
+   120,
+   240
   ],
-  "weight": 4.0,
+  "weight": 4.4,
   "tags": [
    "德式",
-   "卡牌构筑"
+   "文明"
   ],
-  "intro": "在新西兰放牧，带着羊群沿路线去港口装船，用牌组和建筑规划每一趟行程。",
-  "expansions": []
+  "intro": "带领一个文明从古代走到现代：用有限的行动点发展科技、扩充人口、建奇迹，还要提防邻国的侵略和战争。",
+  "expansions": [
+   {
+    "en": "Through the Ages: New Leaders and Wonders",
+    "zh": "历史巨轮：新领袖&新奇迹",
+    "note": "新增领袖和奇迹卡，可以替换或混入基础卡池。"
+   }
+  ],
+  "best": [
+   3
+  ]
  },
  {
   "key": "twilight-imperium",
@@ -906,6 +915,34 @@
   "best": [
    2
   ]
+ },
+ {
+  "key": "gwt-new-zealand",
+  "url": "https://gwtnz.leisurecat.cloud",
+  "shelf": "德式",
+  "zh": "大西部开拓者：新西兰开拓史",
+  "en": "GREAT WESTERN TRAIL: NEW ZEALAND",
+  "cover": "img/games/gwt-new-zealand.jpg",
+  "box": [
+   29.7,
+   29.7,
+   7.1
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   75,
+   150
+  ],
+  "weight": 4.0,
+  "tags": [
+   "德式",
+   "卡牌构筑"
+  ],
+  "intro": "在新西兰放牧，带着羊群沿路线去港口装船，用牌组和建筑规划每一趟行程。",
+  "expansions": []
  },
  {
   "key": "odin",

@@ -23,7 +23,7 @@ const ASK_BINDINGS = {
   arnak: 'ASK_ARNAK', botc: 'ASK_BOTC', avalon: 'ASK_AVALON',
   'dune-imperium': 'ASK_DUNE', 'dune-uprising': 'ASK_DUNE', 'ark-nova': 'ASK_ARK',
   'sakura-arms': 'ASK_SAKURA', 'castles-of-burgundy': 'ASK_BURGUNDY',
-  flip7: 'ASK_FLIP7', seti: 'ASK_SETI', 'gwt-new-zealand': 'ASK_GWTNZ'
+  flip7: 'ASK_FLIP7', seti: 'ASK_SETI', 'gwt-new-zealand': 'ASK_GWTNZ', 'through-the-ages': 'ASK_TTA'
 };
 async function ask(req, env) {
   let body;
