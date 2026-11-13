@@ -137,6 +137,43 @@
   ]
  },
  {
+  "key": "seti",
+  "url": "https://seti.leisurecat.cloud",
+  "shelf": "德式",
+  "zh": "星空觅迹",
+  "en": "SETI",
+  "cover": "img/games/seti.jpg",
+  "box": [
+   37.0,
+   25.5,
+   7.0
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   40,
+   160
+  ],
+  "weight": 3.8,
+  "tags": [
+   "德式",
+   "引擎构筑"
+  ],
+  "intro": "带领科研团队发射探测器、扫描星空、分析数据，寻找外星生命的迹象。",
+  "expansions": [
+   {
+    "en": "SETI: Space Agencies",
+    "zh": "星空觅迹：群星计画",
+    "note": "新增研究机构等内容，本站助手已收录。"
+   }
+  ],
+  "best": [
+   3
+  ]
+ },
+ {
   "key": "dune-imperium",
   "url": "https://dune.leisurecat.cloud/?v=base",
   "shelf": "德式",
@@ -224,78 +261,32 @@
   ]
  },
  {
-  "key": "odin",
-  "zh": "奥丁的盛宴",
-  "en": "A FEAST FOR ODIN",
-  "url": "https://odin.leisurecat.cloud",
+  "key": "gwt-new-zealand",
+  "url": "https://gwtnz.leisurecat.cloud",
   "shelf": "德式",
+  "zh": "大西部开拓者：新西兰开拓史",
+  "en": "GREAT WESTERN TRAIL: NEW ZEALAND",
+  "cover": "img/games/gwt-new-zealand.jpg",
   "box": [
-   22.5,
-   31.5,
-   12.0
+   29.7,
+   29.7,
+   7.1
   ],
   "players": [
    1,
    4
   ],
   "time": [
-   30,
-   120
+   75,
+   150
   ],
-  "weight": 3.9,
+  "weight": 4.0,
   "tags": [
    "德式",
-   "工人放置",
-   "拼图"
+   "卡牌构筑"
   ],
-  "intro": "维京人出海、狩猎、贸易，把货物拼进领地板。",
-  "expansions": [
-   {
-    "en": "A Feast for Odin: The Norwegians",
-    "zh": "奥丁的盛宴：挪威传奇",
-    "note": "新增四座岛屿、马和猪等新拼块，以及按人数可调的新行动板。"
-   }
-  ],
-  "best": [
-   3
-  ]
- },
- {
-  "key": "castles-of-burgundy",
-  "url": "https://burgundy.leisurecat.cloud",
-  "shelf": "德式",
-  "zh": "勃艮第城堡",
-  "en": "THE CASTLES OF BURGUNDY",
-  "cover": "img/games/castles-of-burgundy.jpg",
-  "box": [
-   27.0,
-   37.0,
-   16.4
-  ],
-  "players": [
-   1,
-   4
-  ],
-  "time": [
-   70,
-   120
-  ],
-  "weight": 2.8,
-  "tags": [
-   "德式",
-   "拼图"
-  ],
-  "intro": "十五世纪的勃艮第公爵，用骰子挑选六角片，建起城堡、牧场、城镇和修道院，把自己的公国填满。",
-  "expansions": [
-   {
-    "en": "The Castles of Burgundy: Special Edition",
-    "zh": "勃艮第城堡：特别典藏版",
-    "note": "收录历代 10 个小扩展，另有葡萄园和自动机；简体中文版由游卡桌游出版。"
-   }
-  ],
-  "best": [
-   2
-  ]
+  "intro": "在新西兰放牧，带着羊群沿路线去港口装船，用牌组和建筑规划每一趟行程。",
+  "expansions": []
  },
  {
   "key": "twilight-imperium",
@@ -917,6 +908,80 @@
   ]
  },
  {
+  "key": "odin",
+  "zh": "奥丁的盛宴",
+  "en": "A FEAST FOR ODIN",
+  "url": "https://odin.leisurecat.cloud",
+  "shelf": "德式",
+  "box": [
+   22.5,
+   31.5,
+   12.0
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   30,
+   120
+  ],
+  "weight": 3.9,
+  "tags": [
+   "德式",
+   "工人放置",
+   "拼图"
+  ],
+  "intro": "维京人出海、狩猎、贸易，把货物拼进领地板。",
+  "expansions": [
+   {
+    "en": "A Feast for Odin: The Norwegians",
+    "zh": "奥丁的盛宴：挪威传奇",
+    "note": "新增四座岛屿、马和猪等新拼块，以及按人数可调的新行动板。"
+   }
+  ],
+  "best": [
+   3
+  ]
+ },
+ {
+  "key": "castles-of-burgundy",
+  "url": "https://burgundy.leisurecat.cloud",
+  "shelf": "德式",
+  "zh": "勃艮第城堡",
+  "en": "THE CASTLES OF BURGUNDY",
+  "cover": "img/games/castles-of-burgundy.jpg",
+  "box": [
+   27.0,
+   37.0,
+   16.4
+  ],
+  "players": [
+   1,
+   4
+  ],
+  "time": [
+   70,
+   120
+  ],
+  "weight": 2.8,
+  "tags": [
+   "德式",
+   "拼图"
+  ],
+  "intro": "十五世纪的勃艮第公爵，用骰子挑选六角片，建起城堡、牧场、城镇和修道院，把自己的公国填满。",
+  "expansions": [
+   {
+    "en": "The Castles of Burgundy: Special Edition",
+    "zh": "勃艮第城堡：特别典藏版",
+    "note": "收录历代 10 个小扩展，另有葡萄园和自动机；简体中文版由游卡桌游出版。"
+   }
+  ],
+  "best": [
+   2
+  ]
+ },
+ {
   "key": "tl",
   "zh": "惨剧轮回",
   "en": "TRAGEDY LOOPER",
@@ -1089,6 +1154,44 @@
   },
   "best": [
    2
+  ]
+ },
+ {
+  "key": "flip7",
+  "url": "https://flip7.leisurecat.cloud",
+  "shelf": "其他",
+  "zh": "7连翻",
+  "en": "FLIP 7",
+  "cover": "img/games/flip7.jpg",
+  "box": [
+   9.4,
+   14.3,
+   2.3
+  ],
+  "players": [
+   3,
+   18
+  ],
+  "time": [
+   20,
+   20
+  ],
+  "weight": 1.0,
+  "tags": [
+   "派对",
+   "拼运气"
+  ],
+  "intro": "轮流翻牌拼运气：凑齐 7 张不同数字或者见好就收，翻到重复数字就爆掉，先到 200 分的人赢。",
+  "expansions": [
+   {
+    "en": "Flip 7: With a Vengeance",
+    "zh": "7连翻：冤家路窄",
+    "note": "新增能整别人的行动牌和残酷模式，本站助手两版都支持。"
+   }
+  ],
+  "best": [
+   5,
+   6
   ]
  }
 ]

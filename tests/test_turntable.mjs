@@ -63,6 +63,7 @@ for (const [n, o] of [['m', { viewport: { width: 390, height: 844 }, deviceScale
             return {
               overlap: Math.max(0, ...faces.map(f => Math.min(front.right, f.right) - Math.max(front.left, f.left))),
               frontVisible: Math.max(0, Math.min(innerWidth, r.right) - Math.max(0, r.left)),
+              frontWidth: r.width,   // a small box (7连翻) is narrower than 50px even when wholly on screen
               clipped: Math.max(0, -left) + Math.max(0, right - innerWidth)
             };
           });
@@ -70,7 +71,7 @@ for (const [n, o] of [['m', { viewport: { width: 390, height: 844 }, deviceScale
         const overlap = Math.max(...metrics.map(m => m.overlap)), visible = Math.min(...metrics.map(m => m.frontVisible)), clipped = Math.max(...metrics.map(m => m.clipped));
         console.log(`SPREAD ${n} ${game.key}: max overlap=${overlap.toFixed(2)}px, min front visible=${visible.toFixed(2)}px, max clipped=${clipped.toFixed(2)}px`);
         eq(`${n} ${game.key} neighbour overlap <= 4px`, overlap <= 4, true);
-        if (n === 'm') eq(`${n} ${game.key} neighbour front visible >= 50px`, visible >= 50, true);
+        if (n === 'm') eq(`${n} ${game.key} neighbour front visible >= 50px (or all of it)`, metrics.every(m => m.frontVisible >= Math.min(50, m.frontWidth - 0.5)), true);
         else eq(`${n} ${game.key} neighbours fully inside viewport`, clipped <= .01, true);
       }
       await p.evaluate(() => document.getElementById('next').click());

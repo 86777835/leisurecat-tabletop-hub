@@ -47,6 +47,18 @@
   {
     "binding": "ASK_BURGUNDY",
     "service": "castles-of-burgundy-helper"
+  },
+  {
+    "binding": "ASK_FLIP7",
+    "service": "flip7-helper"
+  },
+  {
+    "binding": "ASK_SETI",
+    "service": "seti-helper"
+  },
+  {
+    "binding": "ASK_GWTNZ",
+    "service": "gwt-new-zealand-helper"
   }
 ],
   "ai": { "binding": "AI" },
